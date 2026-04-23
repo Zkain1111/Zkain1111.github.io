@@ -5,95 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>郑凯茵 - 个人学习主页</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif;}
-        body{background:#f6f8fa;color:#222;line-height:1.7;padding:40px 20px;}
-        .container{max-width:900px;margin:0 auto;}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+        body{
+            background: linear-gradient(120deg,#eef2ff,#f5f7ff,#e8f4f8);
+            min-height:100vh;
+            padding:60px 20px;
+            line-height:1.6;
+            color:#2d3748;
+        }
+        .container{max-width:860px;margin:0 auto;}
 
-        /* 头部个人信息 */
-        .header{text-align:center;padding:30px 20px;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:30px;}
-        .header h1{font-size:36px;color:#1e5ed8;margin-bottom:12px;}
-        .header .school{font-size:18px;color:#444;margin-bottom:8px;}
-        .header .major{font-size:16px;color:#666;}
+        /* 头部标题区 */
+        .header{
+            text-align:center;
+            margin-bottom:50px;
+        }
+        .header h1{
+            font-size:48px;
+            font-weight:600;
+            margin-bottom:12px;
+            background: linear-gradient(135deg,#3b82f6,#6366f1);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+        }
+        .header .school{
+            font-size:18px;
+            color:#4a5568;
+            margin-bottom:6px;
+        }
+        .header .major{
+            font-size:16px;
+            color:#718096;
+        }
 
-        /* 板块通用样式 */
-        .section{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.05);}
-        .section h2{font-size:22px;color:#1e5ed8;margin-bottom:16px;border-left:5px solid #1e5ed8;padding-left:12px;}
+        /* 毛玻璃卡片（和她网站同款！！！） */
+        .card{
+            background:rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border:1px solid rgba(255,255,255,0.8);
+            border-radius:20px;
+            padding:28px 32px;
+            margin-bottom:28px;
+            box-shadow:0 8px 32px rgba(31,38,135,0.08);
+            transition:all 0.3s ease;
+        }
+        .card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 12px 40px rgba(31,38,135,0.12);
+        }
+        .card h2{
+            font-size:24px;
+            font-weight:600;
+            margin-bottom:20px;
+            color:#2d3748;
+            border-left:4px solid #6366f1;
+            padding-left:12px;
+        }
 
-        /* 课程卡片列表 */
-        .course-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
-        .course-card{border:1px solid #eaeef5;border-radius:12px;padding:18px;background:#fbfcfe;transition:all 0.2s ease;cursor:pointer;}
-        .course-card:hover{border-color:#1e5ed8;background:#eff6ff;transform:translateY(-2px);}
-        .course-card h3{font-size:16px;margin-bottom:8px;color:#222;}
-        .course-card p{font-size:14px;color:#666;}
+        /* 课程网格卡片（高级悬浮点击效果） */
+        .course-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+            gap:20px;
+        }
+        .course-item{
+            background:rgba(255,255,255,0.6);
+            backdrop-filter:blur(8px);
+            border-radius:14px;
+            padding:22px;
+            border:1px solid rgba(255,255,255,0.7);
+            transition:all 0.25s ease;
+            cursor:pointer;
+        }
+        .course-item:hover{
+            background:rgba(255,255,255,0.9);
+            transform:translateY(-3px);
+            border-color:#c7d2fe;
+        }
+        .course-item h3{
+            font-size:17px;
+            margin-bottom:10px;
+            color:#4338ca;
+        }
+        .course-item p{
+            font-size:14px;
+            color:#4a5568;
+            line-height:1.6;
+        }
+        .course-item .tip{
+            margin-top:8px;
+            color:#94a3b8;
+            font-size:12px;
+        }
 
-        /* 关于我 & 底部 */
-        .about{line-height:1.8;color:#444;}
-        footer{text-align:center;margin-top:50px;color:#888;font-size:14px;}
+        footer{
+            text-align:center;
+            margin-top:60px;
+            color:#94a3b8;
+            font-size:14px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
 
-    <!-- 个人头部信息 -->
+    <!-- 头部个人信息 -->
     <div class="header">
         <h1>郑凯茵</h1>
         <div class="school">广东科学技术职业学院</div>
         <div class="major">商学院 · 商务数据分析与应用专业</div>
     </div>
 
-    <!-- 关于我 -->
-    <div class="section">
+    <!-- 关于我 毛玻璃卡片 -->
+    <div class="card">
         <h2>关于我</h2>
-        <div class="about">
-            热爱数据分析、前端开发、编程学习，专注数据技能提升，持续沉淀专业知识，记录课程学习笔记、实践项目与成长轨迹。
-            本主页为个人专业学习静态站点，持续更新专业课程内容、作业笔记、实战案例。
-        </div>
+        <p>专注商务数据分析方向学习，热爱编程、数据处理与可视化开发。持续记录专业课程笔记、实战项目、学习成长轨迹，不断提升数据分析、编程开发、数据库应用综合能力。本站为个人静态学习作品集，后续持续更新课程内容与实战案例。</p>
     </div>
 
-    <!-- 专业课程模块（你要求全部都在！预留后续补充内容位置） -->
-    <div class="section">
+    <!-- 专业核心课程 完全按你要求 -->
+    <div class="card">
         <h2>专业核心课程</h2>
-        <div class="course-list">
+        <div class="course-grid">
 
-            <div class="course-card">
+            <div class="course-item">
                 <h3>Python基础</h3>
-                <p>Python语法、变量、函数、循环、面向对象、基础编程实战</p>
-                <p style="margin-top:6px;color:#999;">后续持续更新笔记&代码</p>
+                <p>Python语法、变量、函数、循环结构、面向对象编程入门</p>
+                <div class="tip">后续持续更新笔记 & 代码案例</div>
             </div>
 
-            <div class="course-card">
+            <div class="course-item">
                 <h3>数据分析技术</h3>
-                <p>Pandas、Numpy、数据可视化、图表分析、统计分析基础</p>
-                <p style="margin-top:6px;color:#999;">后续持续更新笔记&案例</p>
+                <p>Numpy、Pandas数据处理、统计分析、数据可视化图表</p>
+                <div class="tip">后续持续更新笔记 & 分析案例</div>
             </div>
 
-            <div class="course-card">
+            <div class="course-item">
                 <h3>数据采集与处理</h3>
-                <p>网络爬虫、数据清洗、数据预处理、异常值处理、数据整理</p>
-                <p style="margin-top:6px;color:#999;">后续持续更新笔记&案例</p>
+                <p>网络爬虫采集、数据清洗、预处理、异常值与缺失值处理</p>
+                <div class="tip">后续持续更新笔记 & 实战项目</div>
             </div>
 
-            <div class="course-card">
+            <div class="course-item">
                 <h3>供应链数据分析</h3>
-                <p>供应链流程分析、库存数据分析、物流数据分析、运营优化</p>
-                <p style="margin-top:6px;color:#999;">后续持续更新笔记&案例</p>
+                <p>供应链运营分析、库存数据分析、物流数据优化、业务指标分析</p>
+                <div class="tip">后续持续更新笔记 & 业务案例</div>
             </div>
 
-            <div class="course-card">
+            <div class="course-item">
                 <h3>数据库原理与应用</h3>
-                <p>MySQL基础、SQL语句、表设计、查询、关联查询、数据库管理</p>
-                <p style="margin-top:6px;color:#999;">后续持续更新笔记&代码</p>
+                <p>MySQL数据库、SQL查询语句、数据表设计、关联查询与数据管理</p>
+                <div class="tip">后续持续更新笔记 & SQL练习</div>
             </div>
 
         </div>
     </div>
 
-    <!-- 站点说明 -->
-    <div class="section">
+    <!-- 站点介绍 -->
+    <div class="card">
         <h2>站点说明</h2>
-        <p>本站为**纯静态个人学习主页**，无后端、无数据库</p>
+        <p>纯静态前端页面 · 无后端服务</p>
         <p>部署平台：Cloudflare Pages</p>
-        <p>用途：专业课程学习记录、技能沉淀、个人作品集展示</p>
+        <p>风格：极简高级磨砂玻璃渐变风 · 自适应电脑/手机</p>
     </div>
 
     <footer>© 2026 郑凯茵 | 广东科学技术职业学院 商务数据分析与应用</footer>
