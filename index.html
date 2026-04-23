@@ -6,172 +6,162 @@
     <title>郑凯茵 - 个人学习主页</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-        body{
-            background: linear-gradient(120deg,#eef2ff,#f5f7ff,#e8f4f8);
-            min-height:100vh;
-            padding:60px 20px;
-            line-height:1.6;
-            color:#2d3748;
-        }
-        .container{max-width:860px;margin:0 auto;}
+        body{background: linear-gradient(135deg,#eef2ff,#f5f7ff,#e8f4f8);min-height:100vh;padding:60px 20px;line-height:1.7;color:#2d3748;}
+        .wrap{max-width:800px;margin:0 auto;}
 
-        /* 头部标题区 */
-        .header{
-            text-align:center;
-            margin-bottom:50px;
-        }
-        .header h1{
-            font-size:48px;
-            font-weight:600;
-            margin-bottom:12px;
-            background: linear-gradient(135deg,#3b82f6,#6366f1);
-            -webkit-background-clip:text;
-            background-clip:text;
-            color:transparent;
-        }
-        .header .school{
-            font-size:18px;
-            color:#4a5568;
-            margin-bottom:6px;
-        }
-        .header .major{
-            font-size:16px;
-            color:#718096;
-        }
+        /* 名字！最顶部超大！绝对看得见 */
+        .my-name{font-size:56px;font-weight:bold;text-align:center;color:#1a1a1a;margin-bottom:16px;}
+        .school{text-align:center;font-size:20px;color:#444;margin-bottom:8px;}
+        .major{text-align:center;font-size:17px;color:#555;margin-bottom:40px;}
 
-        /* 毛玻璃卡片（和她网站同款！！！） */
-        .card{
-            background:rgba(255,255,255,0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border:1px solid rgba(255,255,255,0.8);
-            border-radius:20px;
-            padding:28px 32px;
-            margin-bottom:28px;
-            box-shadow:0 8px 32px rgba(31,38,135,0.08);
-            transition:all 0.3s ease;
-        }
-        .card:hover{
-            transform:translateY(-4px);
-            box-shadow:0 12px 40px rgba(31,38,135,0.12);
-        }
-        .card h2{
-            font-size:24px;
-            font-weight:600;
-            margin-bottom:20px;
-            color:#2d3748;
-            border-left:4px solid #6366f1;
-            padding-left:12px;
-        }
+        .card{background:rgba(255,255,255,0.75);backdrop-filter:blur(12px);border-radius:20px;padding:28px;margin-bottom:24px;box-shadow:0 6px 25px rgba(0,0,0,0.06);}
+        .card h2{font-size:24px;margin-bottom:18px;color:#222;border-left:5px solid #6366f1;padding-left:12px;}
 
-        /* 课程网格卡片（高级悬浮点击效果） */
-        .course-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-            gap:20px;
-        }
-        .course-item{
-            background:rgba(255,255,255,0.6);
-            backdrop-filter:blur(8px);
-            border-radius:14px;
-            padding:22px;
-            border:1px solid rgba(255,255,255,0.7);
-            transition:all 0.25s ease;
-            cursor:pointer;
-        }
-        .course-item:hover{
-            background:rgba(255,255,255,0.9);
-            transform:translateY(-3px);
-            border-color:#c7d2fe;
-        }
-        .course-item h3{
-            font-size:17px;
-            margin-bottom:10px;
-            color:#4338ca;
-        }
-        .course-item p{
-            font-size:14px;
-            color:#4a5568;
-            line-height:1.6;
-        }
-        .course-item .tip{
-            margin-top:8px;
-            color:#94a3b8;
-            font-size:12px;
-        }
+        .course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;}
+        .course-item{background:#fff;border-radius:14px;padding:20px;border:1px solid #e0e7ff;transition:0.2s;}
+        .course-item:hover{transform:translateY(-3px);border-color:#6366f1;}
+        .course-item a{text-decoration:none;color:#333;display:block;}
+        .course-item h3{color:#4338ca;margin-bottom:8px;}
 
-        footer{
-            text-align:center;
-            margin-top:60px;
-            color:#94a3b8;
-            font-size:14px;
-        }
+        .page{display:none;}
+        .page.active{display:block;}
+        .back-btn{display:inline-block;padding:10px 18px;background:#6366f1;color:#fff;border-radius:12px;text-decoration:none;margin-bottom:20px;}
     </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
 
-    <!-- 头部个人信息 -->
-    <div class="header">
-        <h1>郑凯茵</h1>
-        <div class="school">广东科学技术职业学院</div>
-        <div class="major">商学院 · 商务数据分析与应用专业</div>
-    </div>
+<!-- 首页 -->
+<div id="home" class="page active">
+    <div class="my-name">郑凯茵</div>
+    <div class="school">广东科学技术职业学院</div>
+    <div class="major">商学院 · 商务数据分析与应用专业</div>
 
-    <!-- 关于我 毛玻璃卡片 -->
     <div class="card">
         <h2>关于我</h2>
-        <p>专注商务数据分析方向学习，热爱编程、数据处理与可视化开发。持续记录专业课程笔记、实战项目、学习成长轨迹，不断提升数据分析、编程开发、数据库应用综合能力。本站为个人静态学习作品集，后续持续更新课程内容与实战案例。</p>
+        <p>在校商务数据分析专业学生，专注编程开发、数据处理、数据分析、数据库应用学习。本主页为个人专业学习静态作品集，记录课程笔记、作业、实战项目与成长轨迹。点击下方课程卡片即可进入课程详情查看完整内容。</p>
     </div>
 
-    <!-- 专业核心课程 完全按你要求 -->
     <div class="card">
         <h2>专业核心课程</h2>
         <div class="course-grid">
-
-            <div class="course-item">
+            <div class="course-item"><a href="#python" onclick="showPage('python')">
                 <h3>Python基础</h3>
-                <p>Python语法、变量、函数、循环结构、面向对象编程入门</p>
-                <div class="tip">后续持续更新笔记 & 代码案例</div>
-            </div>
-
-            <div class="course-item">
+                <p>点击进入查看完整课程内容</p>
+            </a></div>
+            <div class="course-item"><a href="#dataAnalysis" onclick="showPage('dataAnalysis')">
                 <h3>数据分析技术</h3>
-                <p>Numpy、Pandas数据处理、统计分析、数据可视化图表</p>
-                <div class="tip">后续持续更新笔记 & 分析案例</div>
-            </div>
-
-            <div class="course-item">
+                <p>点击进入查看完整课程内容</p>
+            </a></div>
+            <div class="course-item"><a href="#dataCollect" onclick="showPage('dataCollect')">
                 <h3>数据采集与处理</h3>
-                <p>网络爬虫采集、数据清洗、预处理、异常值与缺失值处理</p>
-                <div class="tip">后续持续更新笔记 & 实战项目</div>
-            </div>
-
-            <div class="course-item">
+                <p>点击进入查看完整课程内容</p>
+            </a></div>
+            <div class="course-item"><a href="#supplyChain" onclick="showPage('supplyChain')">
                 <h3>供应链数据分析</h3>
-                <p>供应链运营分析、库存数据分析、物流数据优化、业务指标分析</p>
-                <div class="tip">后续持续更新笔记 & 业务案例</div>
-            </div>
-
-            <div class="course-item">
+                <p>点击进入查看完整课程内容</p>
+            </a></div>
+            <div class="course-item"><a href="#database" onclick="showPage('database')">
                 <h3>数据库原理与应用</h3>
-                <p>MySQL数据库、SQL查询语句、数据表设计、关联查询与数据管理</p>
-                <div class="tip">后续持续更新笔记 & SQL练习</div>
-            </div>
-
+                <p>点击进入查看完整课程内容</p>
+            </a></div>
         </div>
     </div>
+</div>
 
-    <!-- 站点介绍 -->
+<!-- Python基础 【有内容！】 -->
+<div id="python" class="page">
+    <a href="#home" onclick="showPage('home')" class="back-btn">← 返回首页</a>
     <div class="card">
-        <h2>站点说明</h2>
-        <p>纯静态前端页面 · 无后端服务</p>
-        <p>部署平台：Cloudflare Pages</p>
-        <p>风格：极简高级磨砂玻璃渐变风 · 自适应电脑/手机</p>
+        <h2>Python基础</h2>
+        <p><strong>课程内容：</strong></p>
+        <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
+            <li>Python环境搭建、基础语法</li>
+            <li>变量、数据类型、输入输出</li>
+            <li>if条件判断、for/while循环</li>
+            <li>函数定义、参数、返回值</li>
+            <li>列表、字典、元组等数据结构</li>
+            <li>面向对象编程入门</li>
+            <li>课后作业、代码笔记持续更新</li>
+        </ul>
     </div>
+</div>
 
-    <footer>© 2026 郑凯茵 | 广东科学技术职业学院 商务数据分析与应用</footer>
+<!-- 数据分析技术 【有内容！】 -->
+<div id="dataAnalysis" class="page">
+    <a href="#home" onclick="showPage('home')" class="back-btn">← 返回首页</a>
+    <div class="card">
+        <h2>数据分析技术</h2>
+        <p><strong>课程内容：</strong></p>
+        <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
+            <li>Numpy数值计算基础</li>
+            <li>Pandas数据读取、清洗、筛选</li>
+            <li>描述性统计、均值、中位数、方差</li>
+            <li>Matplotlib折线图、柱状图可视化</li>
+            <li>商务数据综合分析案例</li>
+            <li>分析报告、笔记持续更新</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 数据采集与处理 【有内容！】 -->
+<div id="dataCollect" class="page">
+    <a href="#home" onclick="showPage('home')" class="back-btn">← 返回首页</a>
+    <div class="card">
+        <h2>数据采集与处理</h2>
+        <p><strong>课程内容：</strong></p>
+        <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
+            <li>网络爬虫基本原理</li>
+            <li>网页数据爬取、请求解析</li>
+            <li>缺失值、重复值、异常值处理</li>
+            <li>数据格式转换、标准化清洗</li>
+            <li>数据预处理完整流程</li>
+            <li>采集实战项目持续更新</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 供应链数据分析 【有内容！】 -->
+<div id="supplyChain" class="page">
+    <a href="#home" onclick="showPage('home')" class="back-btn">← 返回首页</a>
+    <div class="card">
+        <h2>供应链数据分析</h2>
+        <p><strong>课程内容：</strong></p>
+        <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
+            <li>供应链业务流程与核心指标</li>
+            <li>库存周转数据分析</li>
+            <li>物流运输效率分析</li>
+            <li>供应链成本优化分析</li>
+            <li>仓储、配送、供应链运营分析</li>
+            <li>商务行业业务案例持续更新</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 数据库原理与应用 【有内容！】 -->
+<div id="database" class="page">
+    <a href="#home" onclick="showPage('home')" class="back-btn">← 返回首页</a>
+    <div class="card">
+        <h2>数据库原理与应用</h2>
+        <p><strong>课程内容：</strong></p>
+        <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
+            <li>数据库基础概念、MySQL安装使用</li>
+            <li>数据表设计、字段类型设置</li>
+            <li>SQL增删改查基础语句</li>
+            <li>where条件、排序、分组统计</li>
+            <li>多表关联查询、连接查询</li>
+            <li>SQL练习、作业笔记持续更新</li>
+        </ul>
+    </div>
+</div>
 
 </div>
+
+<script>
+function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+</script>
 </body>
 </html>
