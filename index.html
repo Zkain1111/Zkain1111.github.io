@@ -3,194 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑凯茵 - 个人学习主页</title>
+    <title>郑凯茵 · 商务数据分析</title>
     <style>
         :root {
-            --bg: #f0f4f8;
-            --card-bg: rgba(255, 255, 255, 0.78);
-            --text: #2d3748;
+            --bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --text: #1e293b;
             --accent: #6366f1;
-            --accent-light: #e0e7ff;
+            --accent2: #8b5cf6;
+            --gold: #f59e0b;
             --success: #10b981;
             --danger: #ef4444;
-            --radius: 18px;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
-            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            --radius: 24px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-
         body {
-            background: linear-gradient(160deg, #eef2ff 0%, #f5f7ff 35%, #e8f4f8 70%, #f0fdf4 100%);
+            font-family: var(--font-sans);
+            background: radial-gradient(circle at 20% 30%, #f0f4ff 0%, #f8fafc 40%, #f1f5f9 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            padding: 40px 20px 80px;
-            line-height: 1.7;
-            color: #2d3748;
+            padding: 30px 20px 80px;
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
-
         .wrap {
-            max-width: 880px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .my-name {
-            font-size: 56px;
-            font-weight: 800;
+        /* 头部 */
+        .hero {
             text-align: center;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #1a1a2e, #4338ca);
+            margin-bottom: 40px;
+        }
+        .hero .name {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e1b4b, #4338ca, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 8px;
         }
-        .school {
-            text-align: center;
+        .hero .school {
             font-size: 20px;
-            color: #444;
-            margin-bottom: 4px;
-            font-weight: 500;
+            font-weight: 600;
+            color: #334155;
         }
-        .major {
-            text-align: center;
+        .hero .major {
             font-size: 16px;
-            color: #666;
-            margin-bottom: 44px;
-            letter-spacing: 0.5px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: rgba(99, 102, 241, 0.08);
+            color: #4338ca;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(99, 102, 241, 0.15);
         }
 
+        /* 卡片 */
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--radius);
-            padding: 28px 30px;
-            margin-bottom: 22px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,255,255,0.5);
         }
         .card h2 {
-            font-size: 23px;
-            margin-bottom: 16px;
-            color: #1a1a2e;
-            border-left: 5px solid var(--accent);
-            padding-left: 14px;
-            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card h2::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 26px;
+            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
         }
 
         .course-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 16px;
+            gap: 20px;
         }
         .course-item {
-            background: #fff;
-            border-radius: 14px;
-            padding: 20px 18px;
-            border: 1.5px solid #e8ecf4;
-            transition: all 0.25s ease;
+            background: white;
+            border-radius: 18px;
+            padding: 22px 18px;
+            border: 1px solid #e2e8f0;
             cursor: pointer;
+            transition: all 0.25s;
             position: relative;
             overflow: hidden;
         }
+        .course-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+        .course-item:hover::before {
+            transform: scaleX(1);
+        }
         .course-item:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 15px 30px rgba(99,102,241,0.1);
         }
         .course-item h3 {
-            color: #4338ca;
-            margin-bottom: 6px;
             font-size: 17px;
             font-weight: 700;
+            margin-bottom: 6px;
         }
         .course-item p {
             font-size: 14px;
-            color: #777;
-            margin: 0;
+            color: #64748b;
         }
-        .course-item.practice-card {
+        .exercise-card {
             border: 2px dashed #c4b5fd;
             background: linear-gradient(135deg, #faf5ff, #fdf2f8);
         }
-        .course-item.practice-card h3 {
+        .exercise-card h3 {
             color: #7c3aed;
         }
-        .practice-badge {
+        .exercise-badge {
             display: inline-block;
             background: #7c3aed;
-            color: #fff;
-            font-size: 11px;
-            padding: 3px 10px;
+            color: white;
+            padding: 4px 12px;
             border-radius: 20px;
-            margin-top: 6px;
+            font-size: 12px;
             font-weight: 600;
+            margin-top: 8px;
         }
 
+        /* 页面切换 */
         .page {
             display: none;
-            animation: fadeSlideIn 0.35s ease;
+            animation: fadeUp 0.35s ease;
         }
         .page.active {
             display: block;
         }
-        @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(18px); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 10px 20px;
+            gap: 8px;
+            padding: 12px 24px;
             background: #6366f1;
-            color: #fff;
-            border-radius: 25px;
-            text-decoration: none;
-            margin-bottom: 20px;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
             font-weight: 600;
             font-size: 15px;
-            transition: all 0.2s;
-            border: none;
-            cursor: pointer;
+            margin-bottom: 24px;
+            transition: background 0.2s, transform 0.2s;
         }
         .back-btn:hover {
             background: #4f46e5;
-            transform: translateX(-3px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+            transform: translateX(-4px);
         }
 
-        /* 习题页面样式 */
+        /* 练习页相关 */
         .practice-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 18px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
+        .env-status {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-loading { background: #f59e0b; animation: pulse 1.2s infinite; }
+        .dot-ready { background: #10b981; }
+        .dot-error { background: #ef4444; }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
         .progress-wrap {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .progress-bar-outer {
             width: 140px;
-            height: 10px;
-            background: #e5e7eb;
+            height: 8px;
+            background: #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
         }
@@ -198,286 +243,189 @@
             height: 100%;
             background: linear-gradient(90deg, #6366f1, #10b981);
             border-radius: 10px;
-            transition: width 0.5s ease;
+            transition: width 0.5s;
         }
         .progress-text {
             font-weight: 700;
             font-size: 14px;
             color: #4338ca;
-            white-space: nowrap;
         }
 
         .question-tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 18px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .question-tab {
-            width: 38px;
-            height: 38px;
+        .q-tab {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            border: 2px solid #d4d4d8;
-            background: #fff;
+            border: 2px solid #cbd5e1;
+            background: white;
             cursor: pointer;
             font-weight: 700;
-            font-size: 14px;
-            color: #555;
-            transition: all 0.2s;
+            font-size: 15px;
+            color: #475569;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            transition: 0.15s;
         }
-        .question-tab:hover {
-            border-color: #6366f1;
-            color: #4338ca;
-            transform: scale(1.08);
-        }
-        .question-tab.active {
-            background: #6366f1;
-            color: #fff;
-            border-color: #6366f1;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-        }
-        .question-tab.passed {
-            background: #d1fae5;
-            border-color: #10b981;
-            color: #059669;
-        }
-        .question-tab.passed::after {
+        .q-tab:hover { border-color: #6366f1; }
+        .q-tab.active { background: #6366f1; color: white; border-color: #6366f1; box-shadow: 0 6px 18px rgba(99,102,241,0.35); }
+        .q-tab.passed { background: #d1fae5; border-color: #10b981; color: #065f46; }
+        .q-tab.passed::after {
             content: '✓';
             position: absolute;
             top: -6px;
             right: -6px;
-            font-size: 10px;
             background: #10b981;
-            color: #fff;
+            color: white;
             width: 18px;
             height: 18px;
             border-radius: 50%;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
         }
 
-        .question-desc-card {
+        .question-card {
             background: #fffbeb;
             border: 1.5px solid #fde68a;
-            border-radius: 14px;
-            padding: 20px 22px;
-            margin-bottom: 16px;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 18px;
             position: relative;
         }
-        .question-desc-card .q-number {
+        .q-number {
             position: absolute;
             top: -14px;
-            left: 20px;
+            left: 22px;
             background: #f59e0b;
-            color: #fff;
-            font-weight: 800;
-            font-size: 13px;
-            padding: 4px 14px;
+            color: white;
+            padding: 4px 16px;
             border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
         }
-        .question-desc-card h3 {
-            margin-top: 6px;
-            margin-bottom: 8px;
-            color: #92400e;
-            font-size: 18px;
-        }
-        .question-desc-card p {
-            color: #5c4b1f;
-            font-size: 15px;
-            line-height: 1.7;
-            margin: 0;
-            white-space: pre-wrap;
-        }
-        .question-desc-card .expected {
-            margin-top: 10px;
-            padding: 8px 14px;
+        .question-card h3 { margin-top: 6px; color: #92400e; }
+        .question-card p { color: #5c4b1f; white-space: pre-wrap; margin: 10px 0; }
+        .expected {
             background: #fef3c7;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: var(--font-mono);
             font-size: 13px;
             color: #92400e;
-            font-family: var(--font-mono);
+            margin-top: 12px;
         }
         .hint-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 6px 14px;
-            background: #fff;
+            margin-top: 12px;
+            padding: 8px 18px;
+            background: white;
             border: 1px solid #fcd34d;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 13px;
             color: #92400e;
-            transition: all 0.2s;
             font-weight: 500;
-        }
-        .hint-btn:hover {
-            background: #fef3c7;
-            border-color: #f59e0b;
         }
         .hint-text {
             display: none;
-            margin-top: 8px;
-            padding: 10px 14px;
+            margin-top: 10px;
+            padding: 12px 16px;
             background: #fefce8;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #854d0e;
+            border-radius: 10px;
             border-left: 3px solid #f59e0b;
+            color: #854d0e;
+            font-size: 13px;
             line-height: 1.6;
         }
-        .hint-text.show {
-            display: block;
-            animation: fadeSlideIn 0.25s ease;
-        }
+        .hint-text.show { display: block; }
 
-        .code-editor-wrap {
-            margin-bottom: 12px;
-        }
         .code-editor-wrap label {
-            display: block;
             font-weight: 700;
-            margin-bottom: 6px;
-            color: #374151;
-            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
         }
         .code-editor {
             width: 100%;
-            min-height: 180px;
+            min-height: 190px;
             max-height: 400px;
-            background: #1e1e2e;
-            color: #cdd6f4;
+            background: #0f172a;
+            color: #e2e8f0;
             font-family: var(--font-mono);
             font-size: 14px;
-            padding: 16px 18px;
-            border: 2px solid #313244;
-            border-radius: 12px;
+            padding: 18px;
+            border: 2px solid #1e293b;
+            border-radius: 14px;
             resize: vertical;
-            line-height: 1.6;
-            tab-size: 4;
             outline: none;
-            transition: border-color 0.25s;
+            line-height: 1.6;
+            margin-bottom: 14px;
         }
-        .code-editor:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
-        }
+        .code-editor:focus { border-color: #6366f1; }
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 12px;
-        }
+        .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
         .btn-run {
-            padding: 11px 28px;
+            padding: 12px 32px;
             background: #6366f1;
-            color: #fff;
+            color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: 700;
             font-size: 15px;
-            letter-spacing: 0.4px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+            transition: 0.2s;
         }
-        .btn-run:disabled {
-            background: #a5b4fc;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        .btn-run:disabled { background: #a5b4fc; cursor: not-allowed; }
         .btn-reset {
-            padding: 11px 20px;
-            background: #fff;
-            color: #6366f1;
-            border: 2px solid #6366f1;
-            border-radius: 25px;
+            padding: 12px 24px;
+            background: white;
+            color: #4338ca;
+            border: 2px solid #c7d2fe;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
         }
-        .btn-reset:hover {
-            background: #eef2ff;
-        }
+        .btn-reset:hover { background: #eef2ff; }
 
         .output-area {
-            background: #f9fafb;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 14px 18px;
-            min-height: 50px;
+            background: #f1f5f9;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 14px;
+            padding: 16px;
             font-family: var(--font-mono);
             font-size: 13px;
-            color: #374151;
             white-space: pre-wrap;
             word-break: break-all;
-            max-height: 250px;
+            max-height: 220px;
             overflow-y: auto;
         }
-        .output-area.success {
-            border-color: #10b981;
-            background: #f0fdf4;
-            color: #065f46;
-        }
-        .output-area.error {
-            border-color: #ef4444;
-            background: #fef2f2;
-            color: #991b1b;
-        }
+        .output-area.success { border-color: #10b981; background: #f0fdf4; }
+        .output-area.error { border-color: #ef4444; background: #fef2f2; }
+
         .result-badge {
             display: inline-block;
-            padding: 5px 14px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 30px;
             font-weight: 700;
             font-size: 13px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
-        .result-badge.pass {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .result-badge.fail {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .pyodide-status {
-            font-size: 13px;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .dot-loading { background: #f59e0b; animation: blink 0.8s infinite; }
-        .dot-ready { background: #10b981; }
-        .dot-error { background: #ef4444; }
-        @keyframes blink {
-            0%,100%{opacity:1;} 50%{opacity:0.25;}
-        }
+        .result-badge.pass { background: #d1fae5; color: #065f46; }
+        .result-badge.fail { background: #fee2e2; color: #991b1b; }
 
         @media (max-width: 640px) {
-            .my-name { font-size: 38px; }
-            .school { font-size: 17px; }
-            .major { font-size: 14px; }
-            .card { padding: 18px 14px; }
-            .code-editor { font-size: 13px; min-height: 140px; padding: 12px; }
-            .question-tab { width: 32px; height: 32px; font-size: 12px; }
+            .hero .name { font-size: 42px; }
+            .card { padding: 22px 16px; }
+            .course-grid { grid-template-columns: 1fr; }
+            .q-tab { width: 36px; height: 36px; font-size: 13px; }
+            .code-editor { min-height: 150px; }
         }
     </style>
 </head>
@@ -486,150 +434,133 @@
 
     <!-- 首页 -->
     <div id="home" class="page active">
-        <div class="my-name">郑凯茵</div>
-        <div class="school">广东科学技术职业学院</div>
-        <div class="major">商学院 · 商务数据分析与应用专业</div>
-
+        <div class="hero">
+            <div class="name">郑凯茵</div>
+            <div class="school">广东科学技术职业学院</div>
+            <div class="major">商学院 · 商务数据分析与应用专业</div>
+            <div class="badge-row">
+                <span class="badge">📊 数据分析</span>
+                <span class="badge">🐍 Python</span>
+                <span class="badge">🗄️ 数据库</span>
+                <span class="badge">📦 供应链</span>
+            </div>
+        </div>
         <div class="card">
             <h2>关于我</h2>
-            <p>在校商务数据分析专业学生，专注编程开发、数据处理、数据分析、数据库应用学习。本主页为个人专业学习静态作品集，记录课程笔记、作业、实战项目与成长轨迹。</p>
+            <p>商务数据分析专业在读，专注数据驱动决策、编程开发与业务分析。这个主页记录了我的课程笔记、项目实操与成长点滴。</p>
         </div>
-
         <div class="card">
-            <h2>专业核心课程</h2>
+            <h2>核心课程</h2>
             <div class="course-grid">
-                <div class="course-item" onclick="showPage('python')">
-                    <h3>Python基础</h3>
-                    <p>点击进入查看完整课程内容</p>
-                </div>
-                <div class="course-item" onclick="showPage('dataAnalysis')">
-                    <h3>数据分析技术</h3>
-                    <p>点击进入查看完整课程内容</p>
-                </div>
-                <div class="course-item" onclick="showPage('dataCollect')">
-                    <h3>数据采集与处理</h3>
-                    <p>点击进入查看完整课程内容</p>
-                </div>
-                <div class="course-item" onclick="showPage('supplyChain')">
-                    <h3>供应链数据分析</h3>
-                    <p>点击进入查看完整课程内容</p>
-                </div>
-                <div class="course-item" onclick="showPage('database')">
-                    <h3>数据库原理与应用</h3>
-                    <p>点击进入查看完整课程内容</p>
-                </div>
-                <div class="course-item practice-card" onclick="showPage('practice')">
-                    <h3>🐍 Python习题练习</h3>
-                    <p>10道练习题 · 在线运行代码</p>
-                    <span class="practice-badge">✨ 交互式</span>
+                <div class="course-item" onclick="window.showPage('python')"><h3>🐍 Python基础</h3><p>语法、数据结构、函数</p></div>
+                <div class="course-item" onclick="window.showPage('analysis')"><h3>📈 数据分析技术</h3><p>Numpy、Pandas、可视化</p></div>
+                <div class="course-item" onclick="window.showPage('collect')"><h3>🌐 数据采集与处理</h3><p>爬虫、清洗、预处理</p></div>
+                <div class="course-item" onclick="window.showPage('supply')"><h3>🚚 供应链数据分析</h3><p>库存、物流、成本优化</p></div>
+                <div class="course-item" onclick="window.showPage('database')"><h3>🗄️ 数据库原理与应用</h3><p>MySQL、SQL查询</p></div>
+                <div class="course-item exercise-card" onclick="window.showPage('exercise')">
+                    <h3>⚡ Python 交互练习</h3>
+                    <p>10道编程题 · 在线运行</p>
+                    <span class="exercise-badge">✨ 动手实践</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Python基础 -->
+    <!-- 课程详情页（框架，可继续扩展） -->
     <div id="python" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
-        <div class="card">
-            <h2>Python基础</h2>
-            <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
-                <li>Python环境搭建、基础语法</li><li>变量、数据类型、输入输出</li><li>if条件判断、for/while循环</li><li>函数定义、参数、返回值</li><li>列表、字典、元组等数据结构</li><li>面向对象编程入门</li><li>课后作业、代码笔记持续更新</li>
-            </ul>
-        </div>
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
+        <div class="card"><h2>Python基础</h2><ul style="margin-left:20px;line-height:2;"><li>环境搭建与基础语法</li><li>变量、数据类型</li><li>条件判断与循环</li><li>函数与模块</li><li>数据结构</li><li>面向对象入门</li></ul></div>
     </div>
-
-    <!-- 数据分析技术 -->
-    <div id="dataAnalysis" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
-        <div class="card">
-            <h2>数据分析技术</h2>
-            <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
-                <li>Numpy数值计算基础</li><li>Pandas数据读取、清洗、筛选</li><li>描述性统计、均值、中位数、方差</li><li>Matplotlib折线图、柱状图可视化</li><li>商务数据综合分析案例</li><li>分析报告、笔记持续更新</li>
-            </ul>
-        </div>
+    <div id="analysis" class="page">
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
+        <div class="card"><h2>数据分析技术</h2><ul style="margin-left:20px;line-height:2;"><li>Numpy数组运算</li><li>Pandas数据清洗</li><li>描述性统计</li><li>Matplotlib可视化</li><li>商务案例</li></ul></div>
     </div>
-
-    <!-- 数据采集与处理 -->
-    <div id="dataCollect" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
-        <div class="card">
-            <h2>数据采集与处理</h2>
-            <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
-                <li>网络爬虫基本原理</li><li>网页数据爬取、请求解析</li><li>缺失值、重复值、异常值处理</li><li>数据格式转换、标准化清洗</li><li>数据预处理完整流程</li><li>采集实战项目持续更新</li>
-            </ul>
-        </div>
+    <div id="collect" class="page">
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
+        <div class="card"><h2>数据采集与处理</h2><ul style="margin-left:20px;line-height:2;"><li>网络爬虫原理</li><li>网页解析</li><li>数据清洗</li><li>格式转换</li><li>实战项目</li></ul></div>
     </div>
-
-    <!-- 供应链数据分析 -->
-    <div id="supplyChain" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
-        <div class="card">
-            <h2>供应链数据分析</h2>
-            <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
-                <li>供应链业务流程与核心指标</li><li>库存周转数据分析</li><li>物流运输效率分析</li><li>供应链成本优化分析</li><li>仓储、配送、供应链运营分析</li><li>商务行业业务案例持续更新</li>
-            </ul>
-        </div>
+    <div id="supply" class="page">
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
+        <div class="card"><h2>供应链数据分析</h2><ul style="margin-left:20px;line-height:2;"><li>核心指标</li><li>库存分析</li><li>物流效率</li><li>成本优化</li><li>行业案例</li></ul></div>
     </div>
-
-    <!-- 数据库原理与应用 -->
     <div id="database" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
-        <div class="card">
-            <h2>数据库原理与应用</h2>
-            <ul style="margin-left:20px;margin-top:12px;line-height:1.8;">
-                <li>数据库基础概念、MySQL安装使用</li><li>数据表设计、字段类型设置</li><li>SQL增删改查基础语句</li><li>where条件、排序、分组统计</li><li>多表关联查询、连接查询</li><li>SQL练习、作业笔记持续更新</li>
-            </ul>
-        </div>
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
+        <div class="card"><h2>数据库原理与应用</h2><ul style="margin-left:20px;line-height:2;"><li>MySQL安装</li><li>表设计</li><li>SQL CRUD</li><li>条件查询</li><li>多表连接</li></ul></div>
     </div>
 
-    <!-- Python习题练习页面 -->
-    <div id="practice" class="page">
-        <button onclick="showPage('home')" class="back-btn">← 返回首页</button>
+    <!-- 习题练习页 -->
+    <div id="exercise" class="page">
+        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
 
         <div class="practice-header">
-            <div class="pyodide-status" id="pyodideStatus">
-                <span class="status-dot dot-loading" id="statusDot"></span>
-                <span id="statusText">Python 环境加载中…</span>
+            <div class="env-status">
+                <span class="dot dot-loading" id="envDot"></span>
+                <span id="envText">Python 环境加载中…</span>
             </div>
             <div class="progress-wrap">
                 <span class="progress-text" id="progressLabel">已通过: 0/10</span>
-                <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar" style="width:0%;"></div></div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar" style="width:0%"></div></div>
             </div>
         </div>
 
         <div class="question-tabs" id="questionTabs"></div>
 
-        <div class="question-desc-card">
+        <div class="question-card">
             <span class="q-number" id="qNumber">第 1 题</span>
-            <h3 id="qTitle">Hello World</h3>
-            <p id="qDescription"></p>
+            <h3 id="qTitle"></h3>
+            <p id="qDesc"></p>
             <div class="expected" id="qExpected"></div>
-            <button class="hint-btn" id="hintBtn" onclick="toggleHint()">💡 查看提示</button>
+            <button class="hint-btn" id="hintBtn" onclick="window.toggleHint()">💡 查看提示</button>
             <div class="hint-text" id="hintText"></div>
         </div>
 
         <div class="code-editor-wrap">
-            <label for="codeEditor">📝 编写你的Python代码：</label>
-            <textarea id="codeEditor" class="code-editor" placeholder="# 在这里输入Python代码..." spellcheck="false"></textarea>
+            <label for="codeEditor">✏️ 编写代码</label>
+            <textarea id="codeEditor" class="code-editor" placeholder="# 输入 Python 代码 ..."></textarea>
         </div>
 
         <div class="btn-row">
-            <button class="btn-run" id="btnRun" onclick="runCode()" disabled>⏳ 加载中…</button>
-            <button class="btn-reset" onclick="resetCode()">🔄 重置代码</button>
+            <button class="btn-run" id="btnRun" onclick="window.runCode()" disabled>⏳ 环境准备中</button>
+            <button class="btn-reset" onclick="window.resetCode()">↺ 重置</button>
         </div>
 
         <div class="output-area" id="outputArea">
-            <div style="font-weight:700;font-size:12px;color:#6b7280;">📤 输出结果</div>
-            <span style="color:#9ca3af;">点击"运行代码"查看输出...</span>
+            <div style="font-weight:700;color:#475569;">📤 输出结果</div>
+            <span style="color:#94a3b8;">点击「运行代码」查看</span>
         </div>
-        <div id="resultMessage" style="margin-top:8px;min-height:28px;"></div>
+        <div id="resultMessage" style="margin-top:12px;"></div>
     </div>
+
 </div>
 
-<!-- 引入 Pyodide -->
+<!-- Pyodide 外部加载 -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 <script>
-    // ==================== 页面切换函数 ====================
-    function showPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const target = document.getElementById(id);
+    // ========== 全局页面切换 ==========
+    window.showPage = function(id) {
+        var pages = document.querySelectorAll('.page');
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove('active');
+        }
+        var target = document.getElementById(id);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (id === 'exercise') {
+                // 每次进入练习页都重新渲染题目列表
+                window.initExerciseUI();
+            }
+        }
+    };
+
+    // ========== 习题数据 ==========
+    var questions = [
+        { id:1, title:'Hello World', desc:'请编写代码打印 "Hello, World!"（注意大小写和符号）。', expected:'Hello, World!', hint:'print("Hello, World!")', code:'print("Hello, World!")' },
+        { id:2, title:'变量与打印', desc:'创建变量 name = "小明"，打印出 "我的名字是小明"。', expected:'我的名字是小明', hint:'name = "小明"\nprint("我的名字是" + name)', code:'name = "小明"\nprint("我的名字是" + name)' },
+        { id:3, title:'简单计算', desc:'计算 123 + 456 并打印结果。', expected:'579', hint:'print(123 + 456)', code:'print(123 + 456)' },
+        { id:4, title:'if判断', desc:'age = 18，若 age>=18 打印 "已成年"，否则打印 "未成年"。', expected:'已成年', hint:'age=18\nif age>=18:\n    print("已成年")\nelse:\n    print("未成年")', code:'age = 18\nif age >= 18:\n    print("已成年")\nelse:\n    print("未成年")' },
+        { id:5, title:'for循环', desc:'用for循环依次打印1到5，每行一个数字。', expected:'1\n2\n3\n4\n5', hint:'for i in range(1,6):\n    print(i)', code:'for i in range(1,6):\n    print(i)' },
+        { id:6, title:'列表求和', desc:'列表 numbers = [1,2,3,4,5]，计算总和并打印。', expected:'15', hint:'numbers=[1,2,3,4,5]\nprint(sum(numbers))', code:'numbers = [1,2,3,4,5]\nprint(sum(numbers))' },
+        { id:7, title:'函数定义', desc:'定义函数 add(a,b) 返回两数和，调用 add(10,20) 并打印。', expected:'30', hint:'def add(a,b):\n    return a+b\nprint(add(10,20))', code:'def add(a,b):\n    return a+b\nprint(add(10,20))' },
+        { id:8, title:'字典取值', desc:'student = {"name":"张三","age":20}，打印name的值。', expected:'张三'
+         
