@@ -3,564 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑凯茵 · 商务数据分析</title>
+    <title>郑凯茵 | 商务数据分析学习主页</title>
+    <!-- CodeMirror 代码编辑器 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/mode/python/python.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/theme/dracula.css">
+    <!-- Pyodide 真实Python运行环境 -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
     <style>
-        :root {
-            --bg: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --text: #1e293b;
-            --accent: #6366f1;
-            --accent2: #8b5cf6;
-            --gold: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --radius: 24px;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Inter, system-ui, sans-serif;
         }
+
+        :root {
+            --bg-main: #0b101b;
+            --bg-card: #161d2d;
+            --border: #2a3347;
+            --primary: #22d3ee;
+            --text-main: #e5e7eb;
+            --text-gray: #9ca3af;
+            --warn: #facc15;
+            --success: #4ade80;
+        }
+
         body {
-            font-family: var(--font-sans);
-            background: radial-gradient(circle at 20% 30%, #f0f4ff 0%, #f8fafc 40%, #f1f5f9 100%);
-            background-attachment: fixed;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             min-height: 100vh;
-            padding: 30px 20px 80px;
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1rem;
         }
-        .wrap {
-            max-width: 900px;
+
+        .container {
+            max-width: 1280px;
             margin: 0 auto;
         }
 
-        /* 头部 */
+        /* 头部信息 */
         .hero {
             text-align: center;
-            margin-bottom: 40px;
-        }
-        .hero .name {
-            font-size: clamp(48px, 8vw, 72px);
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e1b4b, #4338ca, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-        .hero .school {
-            font-size: 20px;
-            font-weight: 600;
-            color: #334155;
-        }
-        .hero .major {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 16px;
-        }
-        .badge-row {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background: rgba(99, 102, 241, 0.08);
-            color: #4338ca;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 600;
-            border: 1px solid rgba(99, 102, 241, 0.15);
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* 卡片 */
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: var(--radius);
-            padding: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        .card h2 {
-            font-size: 24px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .card h2::before {
-            content: '';
-            display: inline-block;
-            width: 5px;
-            height: 26px;
-            background: linear-gradient(180deg, #6366f1, #8b5cf6);
-            border-radius: 3px;
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            letter-spacing: 2px;
         }
 
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* 通用标题 */
+        .section-title {
+            font-size: 1.6rem;
+            margin: 3rem 0 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--primary);
+            color: var(--text-main);
+        }
+
+        /* 课程卡片网格 */
         .course-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 20px;
-        }
-        .course-item {
-            background: white;
-            border-radius: 18px;
-            padding: 22px 18px;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-        .course-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s ease;
-        }
-        .course-item:hover::before {
-            transform: scaleX(1);
-        }
-        .course-item:hover {
-            transform: translateY(-5px);
-            border-color: #6366f1;
-            box-shadow: 0 15px 30px rgba(99,102,241,0.1);
-        }
-        .course-item h3 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .course-item p {
-            font-size: 14px;
-            color: #64748b;
-        }
-        .exercise-card {
-            border: 2px dashed #c4b5fd;
-            background: linear-gradient(135deg, #faf5ff, #fdf2f8);
-        }
-        .exercise-card h3 {
-            color: #7c3aed;
-        }
-        .exercise-badge {
-            display: inline-block;
-            background: #7c3aed;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
         }
 
-        /* 页面切换 */
-        .page {
-            display: none;
-            animation: fadeUp 0.35s ease;
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .page.active {
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.12);
+        }
+
+        .course-card h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .course-desc {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-content {
+            display: none;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .course-card.active .course-content {
             display: block;
         }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* 练习项目容器 */
+        .exercise-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: #6366f1;
-            color: white;
+        .exercise-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+        }
+
+        .exercise-item h4 {
+            color: var(--warn);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-desc {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .btn-group {
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
             border: none;
-            border-radius: 40px;
+            font-size: 0.9rem;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 24px;
-            transition: background 0.2s, transform 0.2s;
-        }
-        .back-btn:hover {
-            background: #4f46e5;
-            transform: translateX(-4px);
-        }
-
-        /* 练习页相关 */
-        .practice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .env-status {
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #475569;
-        }
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .dot-loading { background: #f59e0b; animation: pulse 1.2s infinite; }
-        .dot-ready { background: #10b981; }
-        .dot-error { background: #ef4444; }
-        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
-        .progress-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .progress-bar-outer {
-            width: 140px;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-bar-inner {
-            height: 100%;
-            background: linear-gradient(90deg, #6366f1, #10b981);
-            border-radius: 10px;
-            transition: width 0.5s;
-        }
-        .progress-text {
-            font-weight: 700;
-            font-size: 14px;
-            color: #4338ca;
-        }
-
-        .question-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .q-tab {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid #cbd5e1;
-            background: white;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 15px;
-            color: #475569;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            transition: 0.15s;
-        }
-        .q-tab:hover { border-color: #6366f1; }
-        .q-tab.active { background: #6366f1; color: white; border-color: #6366f1; box-shadow: 0 6px 18px rgba(99,102,241,0.35); }
-        .q-tab.passed { background: #d1fae5; border-color: #10b981; color: #065f46; }
-        .q-tab.passed::after {
-            content: '✓';
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #10b981;
-            color: white;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .question-card {
-            background: #fffbeb;
-            border: 1.5px solid #fde68a;
-            border-radius: 18px;
-            padding: 24px;
-            margin-bottom: 18px;
-            position: relative;
-        }
-        .q-number {
-            position: absolute;
-            top: -14px;
-            left: 22px;
-            background: #f59e0b;
-            color: white;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-        }
-        .question-card h3 { margin-top: 6px; color: #92400e; }
-        .question-card p { color: #5c4b1f; white-space: pre-wrap; margin: 10px 0; }
-        .expected {
-            background: #fef3c7;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            color: #92400e;
-            margin-top: 12px;
-        }
-        .hint-btn {
-            margin-top: 12px;
-            padding: 8px 18px;
-            background: white;
-            border: 1px solid #fcd34d;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #92400e;
-            font-weight: 500;
-        }
-        .hint-text {
-            display: none;
-            margin-top: 10px;
-            padding: 12px 16px;
-            background: #fefce8;
-            border-radius: 10px;
-            border-left: 3px solid #f59e0b;
-            color: #854d0e;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        .hint-text.show { display: block; }
-
-        .code-editor-wrap label {
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
-            color: #334155;
-        }
-        .code-editor {
-            width: 100%;
-            min-height: 190px;
-            max-height: 400px;
-            background: #0f172a;
-            color: #e2e8f0;
-            font-family: var(--font-mono);
-            font-size: 14px;
-            padding: 18px;
-            border: 2px solid #1e293b;
-            border-radius: 14px;
-            resize: vertical;
-            outline: none;
-            line-height: 1.6;
-            margin-bottom: 14px;
-        }
-        .code-editor:focus { border-color: #6366f1; }
-
-        .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-        .btn-run {
-            padding: 12px 32px;
-            background: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 15px;
             transition: 0.2s;
+            margin-right: 0.8rem;
         }
-        .btn-run:disabled { background: #a5b4fc; cursor: not-allowed; }
-        .btn-reset {
-            padding: 12px 24px;
-            background: white;
-            color: #4338ca;
-            border: 2px solid #c7d2fe;
-            border-radius: 30px;
-            cursor: pointer;
+
+        .btn-run {
+            background-color: var(--primary);
+            color: #000;
             font-weight: 600;
         }
-        .btn-reset:hover { background: #eef2ff; }
 
-        .output-area {
-            background: #f1f5f9;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 14px;
-            padding: 16px;
-            font-family: var(--font-mono);
-            font-size: 13px;
+        .btn-run:hover {
+            background-color: #06b6d4;
+        }
+
+        .btn-clear {
+            background-color: transparent;
+            border: 1px solid var(--text-gray);
+            color: var(--text-gray);
+        }
+
+        .btn-clear:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .output-box {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 70px;
+            color: var(--success);
+            font-family: monospace;
             white-space: pre-wrap;
-            word-break: break-all;
-            max-height: 220px;
-            overflow-y: auto;
         }
-        .output-area.success { border-color: #10b981; background: #f0fdf4; }
-        .output-area.error { border-color: #ef4444; background: #fef2f2; }
 
-        .result-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 13px;
-            margin-top: 10px;
+        /* CodeMirror 样式覆盖 */
+        .CodeMirror {
+            border-radius: 8px;
+            border: 1px solid var(--border) !important;
+            height: 220px;
         }
-        .result-badge.pass { background: #d1fae5; color: #065f46; }
-        .result-badge.fail { background: #fee2e2; color: #991b1b; }
 
-        @media (max-width: 640px) {
-            .hero .name { font-size: 42px; }
-            .card { padding: 22px 16px; }
-            .course-grid { grid-template-columns: 1fr; }
-            .q-tab { width: 36px; height: 36px; font-size: 13px; }
-            .code-editor { min-height: 150px; }
+        /* 加载提示 */
+        .loading {
+            color: var(--primary);
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<div class="wrap">
-
-    <!-- 首页 -->
-    <div id="home" class="page active">
+    <div class="container">
+        <!-- 个人头部 -->
         <div class="hero">
-            <div class="name">郑凯茵</div>
-            <div class="school">广东科学技术职业学院</div>
-            <div class="major">商学院 · 商务数据分析与应用专业</div>
-            <div class="badge-row">
-                <span class="badge">📊 数据分析</span>
-                <span class="badge">🐍 Python</span>
-                <span class="badge">🗄️ 数据库</span>
-                <span class="badge">📦 供应链</span>
+            <h1>郑凯茵</h1>
+            <p>广东科学技术职业学院 · 商学院</p>
+            <p>商务数据分析与应用专业 | 个人学习主页</p>
+        </div>
+
+        <!-- 专业课程板块 -->
+        <h2 class="section-title">专业课程项目</h2>
+        <div class="course-grid">
+            <div class="course-card" onclick="toggleCourse(this)">
+                <h3>Python 基础</h3>
+                <p class="course-desc">语法入门、变量、分支、循环、函数、基础数据结构</p>
+                <div class="course-content">
+                    后续补充：课程笔记、案例代码、课堂作业、知识点总结
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <h2>关于我</h2>
-            <p>商务数据分析专业在读，专注数据驱动决策、编程开发与业务分析。这个主页记录了我的课程笔记、项目实操与成长点滴。</p>
-        </div>
-        <div class="card">
-            <h2>核心课程</h2>
-            <div class="course-grid">
-                <div class="course-item" onclick="window.showPage('python')"><h3>🐍 Python基础</h3><p>语法、数据结构、函数</p></div>
-                <div class="course-item" onclick="window.showPage('analysis')"><h3>📈 数据分析技术</h3><p>Numpy、Pandas、可视化</p></div>
-                <div class="course-item" onclick="window.showPage('collect')"><h3>🌐 数据采集与处理</h3><p>爬虫、清洗、预处理</p></div>
-                <div class="course-item" onclick="window.showPage('supply')"><h3>🚚 供应链数据分析</h3><p>库存、物流、成本优化</p></div>
-                <div class="course-item" onclick="window.showPage('database')"><h3>🗄️ 数据库原理与应用</h3><p>MySQL、SQL查询</p></div>
-                <div class="course-item exercise-card" onclick="window.showPage('exercise')">
-                    <h3>⚡ Python 交互练习</h3>
-                    <p>10道编程题 · 在线运行</p>
-                    <span class="exercise-badge">✨ 动手实践</span>
+            <div class="course-card" onclick="toggleCourse(this)">
+                <h3>数据分析技术</h3>
+                <p class="course-desc">描述统计、数据可视化、基础分析方法与实战</p>
+                <div class="course-content">
+                    后续补充：分析案例、实训报告、图表制作教程
+                </div>
+            </div>
+            <div class="course-card" onclick="toggleCourse(this)">
+                <h3>数据采集与处理</h3>
+                <p class="course-desc">文件读写、数据清洗、异常处理、简易数据采集</p>
+                <div class="course-content">
+                    后续补充：数据处理脚本、采集实战项目、数据集
+                </div>
+            </div>
+            <div class="course-card" onclick="toggleCourse(this)">
+                <h3>供应链数据分析</h3>
+                <p class="course-desc">供应链指标、库存、物流数据建模与分析</p>
+                <div class="course-content">
+                    后续补充：行业案例、分析模型、综合实训项目
+                </div>
+            </div>
+            <div class="course-card" onclick="toggleCourse(this)">
+                <h3>数据库原理与应用</h3>
+                <p class="course-desc">数据库基础、SQL查询、数据表设计、数据管理</p>
+                <div class="course-content">
+                    后续补充：SQL习题、建库脚本、综合查询案例
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 课程详情页（框架，可继续扩展） -->
-    <div id="python" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-        <div class="card"><h2>Python基础</h2><ul style="margin-left:20px;line-height:2;"><li>环境搭建与基础语法</li><li>变量、数据类型</li><li>条件判断与循环</li><li>函数与模块</li><li>数据结构</li><li>面向对象入门</li></ul></div>
-    </div>
-    <div id="analysis" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-        <div class="card"><h2>数据分析技术</h2><ul style="margin-left:20px;line-height:2;"><li>Numpy数组运算</li><li>Pandas数据清洗</li><li>描述性统计</li><li>Matplotlib可视化</li><li>商务案例</li></ul></div>
-    </div>
-    <div id="collect" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-        <div class="card"><h2>数据采集与处理</h2><ul style="margin-left:20px;line-height:2;"><li>网络爬虫原理</li><li>网页解析</li><li>数据清洗</li><li>格式转换</li><li>实战项目</li></ul></div>
-    </div>
-    <div id="supply" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-        <div class="card"><h2>供应链数据分析</h2><ul style="margin-left:20px;line-height:2;"><li>核心指标</li><li>库存分析</li><li>物流效率</li><li>成本优化</li><li>行业案例</li></ul></div>
-    </div>
-    <div id="database" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-        <div class="card"><h2>数据库原理与应用</h2><ul style="margin-left:20px;line-height:2;"><li>MySQL安装</li><li>表设计</li><li>SQL CRUD</li><li>条件查询</li><li>多表连接</li></ul></div>
-    </div>
-
-    <!-- 习题练习页 -->
-    <div id="exercise" class="page">
-        <button class="back-btn" onclick="window.showPage('home')">← 返回首页</button>
-
-        <div class="practice-header">
-            <div class="env-status">
-                <span class="dot dot-loading" id="envDot"></span>
-                <span id="envText">Python 环境加载中…</span>
+        <!-- Python 10个练习项目 -->
+        <h2 class="section-title">Python 10个实战练习项目</h2>
+        <div id="loading" class="loading">正在加载Python运行环境，请稍候...</div>
+        <div class="exercise-wrap" id="exerciseContainer" style="display: none;">
+            <!-- 练习1 -->
+            <div class="exercise-item">
+                <h4>练习项目 1：基础输出</h4>
+                <p class="exercise-desc">编写代码，在控制台输出：Hello, 商务数据分析！</p>
+                <textarea id="code1"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(1)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(1)">清空</button>
+                </div>
+                <div class="output-box" id="output1">运行结果...</div>
             </div>
-            <div class="progress-wrap">
-                <span class="progress-text" id="progressLabel">已通过: 0/10</span>
-                <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar" style="width:0%"></div></div>
+            <!-- 练习2 -->
+            <div class="exercise-item">
+                <h4>练习项目 2：变量与运算</h4>
+                <p class="exercise-desc">定义变量 x=25，y=18，计算两数的和、差、积并全部输出</p>
+                <textarea id="code2"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(2)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(2)">清空</button>
+                </div>
+                <div class="output-box" id="output2">运行结果...</div>
+            </div>
+            <!-- 练习3 -->
+            <div class="exercise-item">
+                <h4>练习项目 3：输入交互</h4>
+                <p class="exercise-desc">使用 input() 获取用户姓名，输出格式：欢迎你，XXX！</p>
+                <textarea id="code3"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(3)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(3)">清空</button>
+                </div>
+                <div class="output-box" id="output3">运行结果...</div>
+            </div>
+            <!-- 练习4 -->
+            <div class="exercise-item">
+                <h4>练习项目 4：条件判断</h4>
+                <p class="exercise-desc">给定数字 num=78，判断是否大于60，输出“及格”或“不及格”</p>
+                <textarea id="code4"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(4)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(4)">清空</button>
+                </div>
+                <div class="output-box" id="output4">运行结果...</div>
+            </div>
+            <!-- 练习5 -->
+            <div class="exercise-item">
+                <h4>练习项目 5：for 循环遍历</h4>
+                <p class="exercise-desc">使用for循环，依次打印 1 到 15 的所有整数</p>
+                <textarea id="code5"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(5)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(5)">清空</button>
+                </div>
+                <div class="output-box" id="output5">运行结果...</div>
+            </div>
+            <!-- 练习6 -->
+            <div class="exercise-item">
+                <h4>练习项目 6：列表操作</h4>
+                <p class="exercise-desc">定义列表 data = [12,34,56,78,90]，遍历列表并打印每一个元素</p>
+                <textarea id="code6"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(6)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(6)">清空</button>
+                </div>
+                <div class="output-box" id="output6">运行结果...</div>
+            </div>
+            <!-- 练习7 -->
+            <div class="exercise-item">
+                <h4>练习项目 7：自定义函数</h4>
+                <p class="exercise-desc">编写函数 calc(a,b)，返回两数平均值，调用函数测试 a=60, b=80</p>
+                <textarea id="code7"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(7)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(7)">清空</button>
+                </div>
+                <div class="output-box" id="output7">运行结果...</div>
+            </div>
+            <!-- 练习8 -->
+            <div class="exercise-item">
+                <h4>练习项目 8：累加求和</h4>
+                <p class="exercise-desc">计算 1 ~ 50 所有整数的总和，并输出结果</p>
+                <textarea id="code8"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(8)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(8)">清空</button>
+                </div>
+                <div class="output-box" id="output8">运行结果...</div>
+            </div>
+            <!-- 练习9 -->
+            <div class="exercise-item">
+                <h4>练习项目 9：奇偶判断</h4>
+                <p class="exercise-desc">定义数字 n=47，判断该数是奇数还是偶数并输出结果</p>
+                <textarea id="code9"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(9)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(9)">清空</button>
+                </div>
+                <div class="output-box" id="output9">运行结果...</div>
+            </div>
+            <!-- 练习10 -->
+            <div class="exercise-item">
+                <h4>练习项目 10：字典遍历</h4>
+                <p class="exercise-desc">定义字典 info = {"姓名":"郑凯茵","方向":"数据分析"}，遍历输出所有键和值</p>
+                <textarea id="code10"></textarea>
+                <div class="btn-group">
+                    <button class="btn btn-run" onclick="runCode(10)">运行代码</button>
+                    <button class="btn btn-clear" onclick="clearCode(10)">清空</button>
+                </div>
+                <div class="output-box" id="output10">运行结果...</div>
             </div>
         </div>
-
-        <div class="question-tabs" id="questionTabs"></div>
-
-        <div class="question-card">
-            <span class="q-number" id="qNumber">第 1 题</span>
-            <h3 id="qTitle"></h3>
-            <p id="qDesc"></p>
-            <div class="expected" id="qExpected"></div>
-            <button class="hint-btn" id="hintBtn" onclick="window.toggleHint()">💡 查看提示</button>
-            <div class="hint-text" id="hintText"></div>
-        </div>
-
-        <div class="code-editor-wrap">
-            <label for="codeEditor">✏️ 编写代码</label>
-            <textarea id="codeEditor" class="code-editor" placeholder="# 输入 Python 代码 ..."></textarea>
-        </div>
-
-        <div class="btn-row">
-            <button class="btn-run" id="btnRun" onclick="window.runCode()" disabled>⏳ 环境准备中</button>
-            <button class="btn-reset" onclick="window.resetCode()">↺ 重置</button>
-        </div>
-
-        <div class="output-area" id="outputArea">
-            <div style="font-weight:700;color:#475569;">📤 输出结果</div>
-            <span style="color:#94a3b8;">点击「运行代码」查看</span>
-        </div>
-        <div id="resultMessage" style="margin-top:12px;"></div>
     </div>
 
-</div>
+    <script>
+        // 全局变量
+        let pyodide = null;
+        const editors = [];
+        const totalExe = 10;
 
-<!-- Pyodide 外部加载 -->
-<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-<script>
-    // ========== 全局页面切换 ==========
-    window.showPage = function(id) {
-        var pages = document.querySelectorAll('.page');
-        for (var i = 0; i < pages.length; i++) {
-            pages[i].classList.remove('active');
-        }
-        var target = document.getElementById(id);
-        if (target) {
-            target.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (id === 'exercise') {
-                // 每次进入练习页都重新渲染题目列表
-                window.initExerciseUI();
+        // 初始化 Python 运行环境
+        async function initPyodide() {
+            pyodide = await loadPyodide();
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("exerciseContainer").style.display = "flex";
+            // 初始化10个代码编辑器
+            for(let i = 1; i <= totalExe; i++){
+                const textarea = document.getElementById(`code${i}`);
+                const cm = CodeMirror.fromTextArea(textarea, {
+                    mode: "python",
+                    theme: "dracula",
+                    lineNumbers: true,
+                    indentUnit: 4,
+                    tabSize: 4,
+                    lineWrapping: true
+                });
+                cm.setValue("# 在此编写Python代码\n");
+                editors[i] = cm;
             }
         }
-    };
+        initPyodide();
 
-    // ========== 习题数据 ==========
-    var questions = [
-        { id:1, title:'Hello World', desc:'请编写代码打印 "Hello, World!"（注意大小写和符号）。', expected:'Hello, World!', hint:'print("Hello, World!")', code:'print("Hello, World!")' },
-        { id:2, title:'变量与打印', desc:'创建变量 name = "小明"，打印出 "我的名字是小明"。', expected:'我的名字是小明', hint:'name = "小明"\nprint("我的名字是" + name)', code:'name = "小明"\nprint("我的名字是" + name)' },
-        { id:3, title:'简单计算', desc:'计算 123 + 456 并打印结果。', expected:'579', hint:'print(123 + 456)', code:'print(123 + 456)' },
-        { id:4, title:'if判断', desc:'age = 18，若 age>=18 打印 "已成年"，否则打印 "未成年"。', expected:'已成年', hint:'age=18\nif age>=18:\n    print("已成年")\nelse:\n    print("未成年")', code:'age = 18\nif age >= 18:\n    print("已成年")\nelse:\n    print("未成年")' },
-        { id:5, title:'for循环', desc:'用for循环依次打印1到5，每行一个数字。', expected:'1\n2\n3\n4\n5', hint:'for i in range(1,6):\n    print(i)', code:'for i in range(1,6):\n    print(i)' },
-        { id:6, title:'列表求和', desc:'列表 numbers = [1,2,3,4,5]，计算总和并打印。', expected:'15', hint:'numbers=[1,2,3,4,5]\nprint(sum(numbers))', code:'numbers = [1,2,3,4,5]\nprint(sum(numbers))' },
-        { id:7, title:'函数定义', desc:'定义函数 add(a,b) 返回两数和，调用 add(10,20) 并打印。', expected:'30', hint:'def add(a,b):\n    return a+b\nprint(add(10,20))', code:'def add(a,b):\n    return a+b\nprint(add(10,20))' },
-        { id:8, title:'字典取值', desc:'student = {"name":"张三","age":20}，打印name的值。', expected:'张三'
-         
+        // 课程卡片 展开/收起
+        function toggleCourse(el){
+            el.classList.toggle("active");
+        }
+
+        // 运行指定题号代码
+        async function runCode(num){
+            if(!pyodide){
+                document.getElementById(`output${num}`).innerText = "Python环境加载中，请稍后再试！";
+                return;
+            }
+            const code = editors[num].getValue();
+            const outputDom = document.getElementById(`output${num}`);
+            try{
+                // 捕获print输出
+                pyodide.runPython(`
+                    import sys
+                    from io import StringIO
+                    sys.stdout = io = StringIO()
+                `);
+                // 执行代码
+                pyodide.runPython(code);
+                // 获取输出
+                const res = pyodide.runPython("io.getvalue()");
+                outputDom.innerText = res || "代码执行完成，无输出内容";
+            }catch(err){
+                outputDom.innerText = `代码错误：${err.message}`;
+            }
+        }
+
+        // 清空指定题号编辑器
+        function clearCode(num){
+            editors[num].setValue("# 在此编写Python代码\n");
+            document.getElementById(`output${num}`).innerText = "运行结果...";
+        }
+    </script>
+</body>
+</html>
