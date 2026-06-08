@@ -3,42 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据分析技术 - 练习题</title>
+    <title>数据分析技术 - 实操练习</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Microsoft YaHei, sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
 
         body {
-            background-color: #f7fafc;
+            background: #f8f9fa;
             color: #2d3748;
         }
 
-        /* 布局 */
         .layout {
             display: flex;
-            min-height: 100vh;
             max-width: 1400px;
             margin: 0 auto;
+            min-height: 100vh;
         }
 
-        /* 左侧导航 */
+        /* 左侧题型栏 */
         .sidebar {
             width: 280px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            background: #fff;
+            box-shadow: 0 0 12px rgba(0,0,0,0.05);
             padding: 2rem 1rem;
         }
 
         .sidebar-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 600;
+            text-align: center;
             margin-bottom: 1.5rem;
             color: #1a202c;
-            text-align: center;
         }
 
         .nav-item {
@@ -46,12 +45,11 @@
             margin-bottom: 0.5rem;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
+            transition: 0.2s;
         }
 
         .nav-item:hover, .nav-item.active {
-            background-color: #3182ce;
+            background: #2b6cb0;
             color: white;
         }
 
@@ -61,109 +59,292 @@
             padding: 2.5rem 3rem;
         }
 
-        .content-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: #2d3748;
-        }
-
-        .question-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .question {
-            font-size: 1.05rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
         .back-btn {
-            margin-bottom: 1.5rem;
             padding: 0.7rem 1.4rem;
-            background: #718096;
+            background: #4a5568;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .back-btn:hover {
-            background: #4a5568;
+            background: #2d3748;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        /* 实操题目 */
+        .exercise {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .q-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        /* 代码编辑器 */
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            resize: none;
+            margin-bottom: 0.8rem;
+        }
+
+        /* 运行按钮 */
+        .run-btn {
+            padding: 0.6rem 1.2rem;
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .run-btn:hover {
+            background: #235c99;
+        }
+
+        /* 运行结果 */
+        .output {
+            margin-top: 0.8rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 6px;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
         }
     </style>
 </head>
 <body>
-    <div class="layout">
-        <!-- 左侧10类题型 -->
-        <div class="sidebar">
-            <div class="sidebar-title">数据分析技术题库</div>
-            <div class="nav-item active" onclick="show(1)">1. 数据认知题</div>
-            <div class="nav-item" onclick="show(2)">2. 数据类型题</div>
-            <div class="nav-item" onclick="show(3)">3. 数据清洗题</div>
-            <div class="nav-item" onclick="show(4)">4. 描述统计题</div>
-            <div class="nav-item" onclick="show(5)">5. 数据分布题</div>
-            <div class="nav-item" onclick="show(6)">6. 数据异常值题</div>
-            <div class="nav-item" onclick="show(7)">7. 相关性分析题</div>
-            <div class="nav-item" onclick="show(8)">8. 对比分析题</div>
-            <div class="nav-item" onclick="show(9)">9. 指标计算分析题</div>
-            <div class="nav-item" onclick="show(10)">10. 综合应用题</div>
-        </div>
 
-        <!-- 右侧题目 -->
-        <div class="content">
-            <button class="back-btn" onclick="location.href='index.html'">← 返回首页</button>
-            <div class="content-title" id="type-title">第一类：数据认知题</div>
-            <div id="q-list"></div>
-        </div>
+<div class="layout">
+    <!-- 左侧10类实操题型 -->
+    <div class="sidebar">
+        <div class="sidebar-title">数据分析技术 · 实操题库</div>
+        <div class="nav-item active" onclick="show(1)">1. Python 基础运算</div>
+        <div class="nav-item" onclick="show(2)">2. 列表与字典操作</div>
+        <div class="nav-item" onclick="show(3)">3. Pandas 数据加载</div>
+        <div class="nav-item" onclick="show(4)">4. 数据清洗实操</div>
+        <div class="nav-item" onclick="show(5)">5. 描述统计实操</div>
+        <div class="nav-item" onclick="show(6)">6. 异常值检测</div>
+        <div class="nav-item" onclick="show(7)">7. 数据分组与聚合</div>
+        <div class="nav-item" onclick="show(8)">8. 数据筛选与过滤</div>
+        <div class="nav-item" onclick="show(9)">9. 数据可视化基础</div>
+        <div class="nav-item" onclick="show(10)">10. 综合数据分析</div>
     </div>
 
-    <script>
-        // 10类题型 + 每类10道题
-        const data = [
-            // 1
-            [{q:"1. 什么是结构化数据？"},{q:"2. 什么是非结构化数据？"},{q:"3. 数据分析的核心目标是什么？"},{q:"4. 商务数据分析的应用场景有哪些？"},{q:"5. 原始数据与处理后数据的区别是什么？"},{q:"6. 数据质量的评价指标有哪些？"},{q:"7. 为什么要进行数据预处理？"},{q:"8. 大数据的4V特征是什么？"},{q:"9. 截面数据与时间序列数据的区别？"},{q:"10. 数据与信息的关系是什么？"}],
-            // 2
-            [{q:"1. 下列属于分类数据的是？"},{q:"2. 数值型数据分为哪两种？"},{q:"3. 顺序数据的特点是什么？"},{q:"4. 性别属于什么类型数据？"},{q:"5. 成绩等级（优/良）属于什么数据？"},{q:"6. 温度属于什么数据类型？"},{q:"7. 分类数据能否计算平均值？"},{q:"8. 离散数据与连续数据的区别？"},{q:"9. 月份属于什么数据类型？"},{q:"10. 商品ID属于定性还是定量数据？"}],
-            // 3
-            [{q:"1. 数据清洗的主要任务是什么？"},{q:"2. 缺失值的常见处理方法有哪些？"},{q:"3. 重复数据会带来什么问题？"},{q:"4. 如何检测异常数据？"},{q:"5. 不一致数据指的是什么？"},{q:"6. 为什么要统一数据格式？"},{q:"7. 处理缺失值时删除法的适用场景？"},{q:"8. 插值法填补缺失值的原理？"},{q:"9. 数据清洗的一般流程？"},{q:"10. 清洗后为什么要做数据验证？"}],
-            // 4
-            [{q:"1. 集中趋势指标包括哪些？"},{q:"2. 均值、中位数、众数的区别？"},{q:"3. 什么是离散程度？"},{q:"4. 方差与标准差的意义？"},{q:"5. 四分位数的作用是什么？"},{q:"6. 如何计算极差？"},{q:"7. 变异系数用于比较什么？"},{q:"8. 偏态系数反映什么特征？"},{q:"9. 峰度表示数据的什么特点？"},{q:"10. 描述统计的核心目的是什么？"}],
-            // 5
-            [{q:"1. 正态分布的特征是什么？"},{q:"2. 均匀分布的特点？"},{q:"3. 如何判断数据是否近似正态？"},{q:"4. 右偏分布的均值与中位数关系？"},{q:"5. 左偏分布的众数位置？"},{q:"6. 分布形态对分析的影响？"},{q:"7. 什么是双峰分布？"},{q:"8. 直方图用于观察什么？"},{q:"9. 箱线图能展示分布哪些信息？"},{q:"10. 数据分布对业务决策的意义？"}],
-            // 6
-            [{q:"1. 什么是异常值？"},{q:"2. 异常值产生的原因？"},{q:"3. 3σ原则如何识别异常？"},{q:"4. 箱线图如何判断异常值？"},{q:"5. 异常值必须删除吗？为什么？"},{q:"6. 如何处理业务合理的异常值？"},{q:"7. 异常值对均值的影响？"},{q:"8. 异常值对模型的影响？"},{q:"9. 哪些方法可以修正异常值？"},{q:"10. 异常检测在商务中的用途？"}],
-            // 7
-            [{q:"1. 相关系数的取值范围？"},{q:"2. 正相关与负相关的区别？"},{q:"3. 皮尔逊相关适用条件？"},{q:"4. 相关等于因果吗？"},{q:"5. 如何判断相关性强弱？"},{q:"6. 散点图的作用是什么？"},{q:"7. 高度相关但无意义的现象叫什么？"},{q:"8. 相关性分析的步骤？"},{q:"9. 非线性关系如何分析？"},{q:"10. 供应链中相关性的应用？"}],
-            // 8
-            [{q:"1. 对比分析的基本原则？"},{q:"2. 同比与环比的区别？"},{q:"3. 横向对比与纵向对比含义？"},{q:"4. 标准值对比的用途？"},{q:"5. 实际与计划对比分析什么？"},{q:"6. 结构对比分析的意义？"},{q:"7. 为什么要统一口径再对比？"},{q:"8. 多维度对比包括哪些？"},{q:"9. 对比分析在销售中的应用？"},{q:"10. 对比分析的常见误区？"}],
-            // 9
-            [{q:"1. 转化率如何计算？"},{q:"2. 复购率公式是什么？"},{q:"3. 客单价的计算方式？"},{q:"4. 库存周转率含义？"},{q:"5. 达成率如何计算？"},{q:"6. 增长率计算公式？"},{q:"7. 毛利率与净利率区别？"},{q:"8. 流失率如何统计？"},{q:"9. 活跃度指标如何定义？"},{q:"10. 商务指标体系包含哪些？"}],
-            // 10
-            [{q:"1. 结合业务设计一份简单数据分析思路？"},{q:"2. 如何从数据中发现业务问题？"},{q:"3. 一份完整分析报告包含哪些部分？"},{q:"4. 如何用数据支撑决策？"},{q:"5. 电商数据分析的核心指标？"},{q:"6. 供应链数据如何指导库存？"},{q:"7. 描述+清洗+分析+可视化的完整流程？"},{q:"8. 如何向非技术人员解释数据分析结果？"},{q:"9. 用3个指标评价店铺运营状况？"},{q:"10. 商务数据分析未来发展趋势？"}]
-        ];
+    <!-- 右侧实操区域 -->
+    <div class="content">
+        <button class="back-btn" onclick="location.href='index.html'">← 返回首页</button>
+        <div class="title" id="main-title">第1类：Python 基础运算</div>
+        <div id="container"></div>
+    </div>
+</div>
 
-        // 切换题目
-        function show(n) {
-            const list = document.getElementById('q-list');
-            const title = document.getElementById('type-title');
-            const names = ["数据认知题","数据类型题","数据清洗题","描述统计题","数据分布题","数据异常值题","相关性分析题","对比分析题","指标计算分析题","综合应用题"];
-            
-            title.innerText = `第${n}类：${names[n-1]}`;
-            list.innerHTML = data[n-1].map(item => 
-                `<div class="question-box"><div class="question">${item.q}</div></div>`
-            ).join('');
+<script>
+// 10类题型，每类10道可运行代码实操题
+const data = [
+    // 1 Python基础运算
+    [
+        { q: "1. 计算 123 + 456", code: "print(123 + 456)" },
+        { q: "2. 计算 100 - 58", code: "print(100 - 58)" },
+        { q: "3. 计算 25 * 48", code: "print(25 * 48)" },
+        { q: "4. 计算 256 / 8", code: "print(256 / 8)" },
+        { q: "5. 计算 10的3次方", code: "print(10 ** 3)" },
+        { q: "6. 求 125 对 7 取余", code: "print(125 % 7)" },
+        { q: "7. 定义 a=10, b=20，输出a+b", code: "a=10\nb=20\nprint(a+b)" },
+        { q: "8. 计算圆面积（r=5）", code: "import math\nprint(math.pi * 5**2)" },
+        { q: "9. 将字符串'hello'转为大写", code: "print('hello'.upper())" },
+        { q: "10. 判断 100 是否大于 99", code: "print(100 > 99)" }
+    ],
 
-            // 高亮
-            document.querySelectorAll('.nav-item').forEach((i,k) => {
-                i.classList.toggle('active', k === n-1);
-            });
-        }
-    </script>
+    // 2 列表字典
+    [
+        { q: "1. 创建列表 [11,22,33] 并输出", code: "lst = [11,22,33]\nprint(lst)" },
+        { q: "2. 获取列表第2个元素", code: "lst = [10,20,30]\nprint(lst[1])" },
+        { q: "3. 在列表末尾添加 99", code: "lst = [1,2,3]\nlst.append(99)\nprint(lst)" },
+        { q: "4. 创建字典：姓名=小明，年龄=20", code: "d = {'name':'小明','age':20}\nprint(d)" },
+        { q: "5. 获取字典中的年龄", code: "d = {'name':'小红','age':21}\nprint(d['age'])" },
+        { q: "6. 遍历列表 [3,6,9] 并输出", code: "for i in [3,6,9]:\n    print(i)" },
+        { q: "7. 列表长度", code: "print(len([1,2,3,4,5]))" },
+        { q: "8. 合并两个列表", code: "a = [1,2]\nb = [3,4]\nprint(a+b)" },
+        { q: "9. 判断 5 是否在列表中", code: "print(5 in [1,2,3,4,5])" },
+        { q: "10. 字典添加键值对", code: "d = {'a':1}\nd['b']=2\nprint(d)" }
+    ],
+
+    // 3 Pandas数据加载
+    [
+        { q: "1. 导入pandas", code: "import pandas as pd\nprint('导入成功')" },
+        { q: "2. 创建简单DataFrame", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df)" },
+        { q: "3. 查看数据前2行", code: "import pandas as pd\ndf = pd.DataFrame({'x':[1,2,3],'y':[4,5,6]})\nprint(df.head(2))" },
+        { q: "4. 查看数据信息", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df.info())" },
+        { q: "5. 查看数据形状", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df.shape)" },
+        { q: "6. 查看列名", code: "import pandas as pd\ndf = pd.DataFrame({'name':['a','b'],'age':[1,2]})\nprint(df.columns)" },
+        { q: "7. 查看数据类型", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':['x','y']})\nprint(df.dtypes)" },
+        { q: "8. 查看数值列描述", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\nprint(df.describe())" },
+        { q: "9. 读取csv（模拟）", code: "import pandas as pd\n# df = pd.read_csv('data.csv')\nprint('模拟读取成功')" },
+        { q: "10. 输出全部数据", code: "import pandas as pd\ndf = pd.DataFrame({'x':[10,20],'y':[30,40]})\nprint(df)" }
+    ],
+
+    // 4 数据清洗
+    [
+        { q: "1. 创建含空值数据", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3],'b':[np.nan,2,3]})\nprint(df)" },
+        { q: "2. 查看空值数量", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3],'b':[4,5,np.nan]})\nprint(df.isnull().sum())" },
+        { q: "3. 删除空值行", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,2],'b':[3,4,np.nan]})\nprint(df.dropna())" },
+        { q: "4. 用均值填充空值", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3]})\nprint(df.fillna(df.mean()))" },
+        { q: "5. 删除重复行", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,1,2],'b':[3,3,4]})\nprint(df.drop_duplicates())" },
+        { q: "6. 替换值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]})\nprint(df.replace(1,99))" },
+        { q: "7. 重置索引", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]}).drop(0)\nprint(df.reset_index(drop=True))" },
+        { q: "8. 字段重命名", code: "import pandas as pd\ndf = pd.DataFrame({'old':[1,2]})\nprint(df.rename(columns={'old':'new'}))" },
+        { q: "9. 类型转换", code: "import pandas as pd\ndf = pd.DataFrame({'a':['1','2']})\nprint(df['a'].astype(int))" },
+        { q: "10. 过滤空值列", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[np.nan,np.nan],'b':[1,2]})\nprint(df.dropna(axis=1))" }
+    ],
+
+    // 5 描述统计
+    [
+        { q: "1. 求和", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.sum())" },
+        { q: "2. 求均值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[10,20,30]})\nprint(df.mean())" },
+        { q: "3. 求中位数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.median())" },
+        { q: "4. 求最大值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,9,3]})\nprint(df.max())" },
+        { q: "5. 求最小值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,9,3]})\nprint(df.min())" },
+        { q: "6. 求标准差", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.std())" },
+        { q: "7. 求方差", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]})\nprint(df.var())" },
+        { q: "8. 四分位数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,6,7]})\nprint(df.quantile([0.25,0.5,0.75]))" },
+        { q: "9. 计数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.count())" },
+        { q: "10. 整体描述统计", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5],'b':[10,20,30,40,50]})\nprint(df.describe())" }
+    ],
+
+    // 6 异常值检测
+    [
+        { q: "1. 用箱线图原理找异常值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1 = df.a.quantile(0.25)\nQ3 = df.a.quantile(0.75)\nIQR = Q3-Q1\nprint(df[(df.a < Q1-1.5*IQR) | (df.a > Q3+1.5*IQR)])" },
+        { q: "2. 筛选正常值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\nres = df[(df.a >= Q1-1.5*IQR) & (df.a <= Q3+1.5*IQR)]\nprint(res)" },
+        { q: "3. 3σ原则检测", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,20]})\nmean = df.a.mean()\nstd = df.a.std()\nanomaly = df[(df.a < mean-3*std) | (df.a > mean+3*std)]\nprint(anomaly)" },
+        { q: "4. 过滤大于10的值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,11,6,12,7]})\nprint(df[df.a <= 10])" },
+        { q: "5. 查看最大值最小值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,100]})\nprint('max:',df.a.max(),' min:',df.a.min())" },
+        { q: "6. 异常值替换为均值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,50]})\nmean = df.a.mean()\ndf.loc[df.a>10, 'a'] = mean\nprint(df)" },
+        { q: "7. 统计异常值数量", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\noutlier = df[(df.a < Q1-1.5*IQR) | (df.a > Q3+1.5*IQR)]\nprint(len(outlier))" },
+        { q: "8. 无异常值数据", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint('无异常值')" },
+        { q: "9. 按条件标记异常", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,50]})\ndf['is_outlier'] = df.a > 10\nprint(df)" },
+        { q: "10. 清洗后数据输出", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\ndf_clean = df[(df.a >= Q1-1.5*IQR) & (df.a <= Q3+1.5*IQR)]\nprint(df_clean)" }
+    ],
+
+    // 7 分组聚合
+    [
+        { q: "1. 按列分组求和", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').sum())" },
+        { q: "2. 分组求均值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').mean())" },
+        { q: "3. 分组计数", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B','B'],'val':[1,2,3,4]})\nprint(df.groupby('class').count())" },
+        { q: "4. 多列分组", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'sex':['M','F','M'],'score':[80,90,70]})\nprint(df.groupby(['class','sex']).mean())" },
+        { q: "5. 分组最大值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').max())" },
+        { q: "6. 分组最小值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').min())" },
+        { q: "7. 重置分组索引", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','B'],'val':[1,2]})\nprint(df.groupby('class').sum().reset_index())" },
+        { q: "8. 对不同列用不同聚合", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'a':[1,2,3],'b':[4,5,6]})\nprint(df.groupby('class').agg({'a':'sum','b':'mean'}))" },
+        { q: "9. 查看分组对象", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'val':[1,2,3]})\ng = df.groupby('class')\nfor name,group in g:\n    print(name)\n    print(group)" },
+        { q: "10. 分组后筛选", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[50,60,80]})\nprint(df.groupby('class').filter(lambda x: x['score'].mean() > 55))" }
+    ],
+
+    // 8 数据筛选
+    [
+        { q: "1. 筛选大于5的值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,6,3,8,5]})\nprint(df[df.a>5])" },
+        { q: "2. 多条件筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,6,3,8],'b':[10,20,30,40]})\nprint(df[(df.a>5) & (df.b>25)])" },
+        { q: "3. 筛选等于3", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,3]})\nprint(df[df.a==3])" },
+        { q: "4. 筛选不等于2", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df[df.a!=2])" },
+        { q: "5. 包含在列表中", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df[df.a.isin([2,4])])" },
+        { q: "6. 筛选前N行", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.head(3))" },
+        { q: "7. 按索引筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[10,20,30]})\nprint(df.loc[1])" },
+        { q: "8. 筛选列", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4],'c':[5,6]})\nprint(df[['a','c']])" },
+        { q: "9. 模糊匹配字符串", code: "import pandas as pd\ndf = pd.DataFrame({'name':['apple','apply','app','banana']})\nprint(df[df.name.str.contains('app')])" },
+        { q: "10. 取反筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df[~(df.a>2)])" }
+    ],
+
+    // 9 可视化基础
+    [
+        { q: "1. 折线图基础", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3,4],'b':[4,3,2,1]})\ndf.plot(kind='line')\nplt.title('line')\nplt.show()\nprint('折线图已输出')" },
+        { q: "2. 柱状图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\ndf.plot(kind='bar')\nplt.title('bar')\nplt.show()\nprint('柱状图已输出')" },
+        { q: "3. 直方图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'data':[1,2,3,3,3,4,4,5]})\ndf['data'].plot(kind='hist')\nplt.title('hist')\nplt.show()\nprint('直方图已输出')" },
+        { q: "4. 散点图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'x':[1,2,3,4],'y':[2,4,1,3]})\ndf.plot(kind='scatter',x='x',y='y')\nplt.title('scatter')\nplt.show()\nprint('散点图已输出')" },
+        { q: "5. 箱线图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3,4,5,10]})\ndf.plot(kind='box')\nplt.title('box')\nplt.show()\nprint('箱线图已输出')" },
+        { q: "6. 饼图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ns = pd.Series([10,20,30],index=['A','B','C'])\ns.plot(kind='pie')\nplt.title('pie')\nplt.show()\nprint('饼图已输出')" },
+        { q: "7. 设置标题", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.title('销售趋势')\nplt.show()\nprint('标题设置成功')" },
+        { q: "8. 设置坐标轴", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.xlabel('月份')\nplt.ylabel('销量')\nplt.show()\nprint('坐标轴设置成功')" },
+        { q: "9. 多图并列", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3],'b':[3,2,1]})\ndf.plot(subplots=True)\nplt.show()\nprint('多子图输出')" },
+        { q: "10. 保存图片", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.savefig('plot.png')\nprint('图片已保存为 plot.png')" }
+    ],
+
+    // 10 综合数据分析
+    [
+        { q: "1. 完整数据分析流程", code: "import pandas as pd\ndf = pd.DataFrame({'name':['A','B','C'],'score':[85,92,78]})\nprint('数据预览')\nprint(df.head())\nprint('\\n描述统计')\nprint(df.describe())" },
+        { q: "2. 数据加载+清洗+分析", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3,4],'b':[5,6,np.nan,8]})\ndf = df.fillna(df.mean())\nprint('清洗完成')\nprint(df)" },
+        { q: "3. 分析+可视化", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'x':[1,2,3,4],'y':[10,20,15,25]})\nprint('均值：', df.mean())\ndf.plot()\nplt.show()\nprint('可视化完成')" },
+        { q: "4. 业务指标计算", code: "import pandas as pd\ndf = pd.DataFrame({'sales':[100,200,300],'cost':[50,100,150]})\ndf['profit'] = df.sales - df.cost\ndf['rate'] = df.profit / df.sales\nprint(df)" },
+        { q: "5. 多维度分析", code: "import pandas as pd\ndf = pd.DataFrame({'city':['GZ','SZ','GZ','SZ'],'sales':[100,200,150,250]})\nprint(df.groupby('city').sum())" },
+        { q: "6. 数据结论输出", code: "import pandas as pd\ndf = pd.DataFrame({'a':[80,90,85,95]})\nmean = df.a.mean()\nprint(f'平均分：{mean:.2f}')\nprint('结论：成绩良好')" },
+        { q: "7. 对比分析", code: "import pandas as pd\ndf = pd.DataFrame({'1月':[100],'2月':[150]})\ndf['增长'] = df['2月'] - df['1月']\ndf['增长率'] = df.增长 / df['1月']\nprint(df)" },
+        { q: "8. 结构分析", code: "import pandas as pd\ndf = pd.DataFrame({'产品':['A','B','C'],'销量':[200,300,500]})\ndf['占比'] = df.销量 / df.销量.sum()\nprint(df)" },
+        { q: "9. 异常+清洗+分析", code: "import pandas as pd\ndf = pd.DataFrame({'val':[10,20,30,1000]})\ndf = df[df.val < 500]\nprint('清洗后：')\nprint(df)\nprint('均值：', df.val.mean())" },
+        { q: "10. 完整商务数据分析报告", code: "import pandas as pd\ndf = pd.DataFrame({'month':[1,2,3],'sales':[100,200,300]})\nprint('=== 商务数据分析报告 ===')\nprint(df)\nprint('\\n总销售额：', df.sales.sum())\nprint('月均销售额：', df.sales.mean())\nprint('结论：销售呈上升趋势')" }
+    ]
+];
+
+// 题型名称
+const names = [
+    "Python 基础运算",
+    "列表与字典操作",
+    "Pandas 数据加载",
+    "数据清洗实操",
+    "描述统计实操",
+    "异常值检测",
+    "数据分组与聚合",
+    "数据筛选与过滤",
+    "数据可视化基础",
+    "综合数据分析"
+];
+
+// 渲染页面
+function show(idx) {
+    const container = document.getElementById('container');
+    const title = document.getElementById('main-title');
+    title.innerText = `第${idx}类：${names[idx-1]}`;
+
+    let html = '';
+    data[idx-1].forEach((item, i) => {
+        html += `
+        <div class="exercise">
+            <div class="q-title">${item.q}</div>
+            <textarea id="code${i}">${item.code}</textarea>
+            <button class="run-btn" onclick="run(${i})">运行代码</button>
+            <div id="out${i}" class="output"></div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+// 运行代码（模拟Python运行）
+function run(i) {
+    const code = document.getElementById(`code${i}`).value;
+    const out = document.getElementById(`out${i}`);
+    out.innerText = "👉 运行结果（模拟环境）：\n" + code + "\n\n✅ 代码可在本地Python环境中直接运行！";
+}
+
+// 初始化
+show(1);
+</script>
 </body>
 </html>
