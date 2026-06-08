@@ -3,348 +3,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据分析技术 - 实操练习</title>
+    <title>数据分析技术 - 习题练习</title>
+    <!-- 引入Pyodide 前端Python运行环境 -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: "Microsoft Yahei", sans-serif;
         }
-
         body {
-            background: #f8f9fa;
+            background-color: #f1f4f8;
             color: #2d3748;
         }
-
-        .layout {
+        /* 顶部导航 */
+        .top-nav {
+            background: #2c3e50;
+            color: #fff;
+            padding: 18px 30px;
             display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        /* 左侧题型栏 */
-        .sidebar {
-            width: 280px;
+        .top-nav a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        /* 主体左右布局 */
+        .main-wrap {
+            display: flex;
+            height: calc(100vh - 66px);
+        }
+        /* 左侧题型菜单 */
+        .left-menu {
+            width: 260px;
             background: #fff;
-            box-shadow: 0 0 12px rgba(0,0,0,0.05);
-            padding: 2rem 1rem;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+            padding: 25px 0;
+            overflow-y: auto;
         }
-
-        .sidebar-title {
-            font-size: 1.25rem;
+        .menu-title {
+            padding: 0 25px 20px;
+            font-size: 1.2rem;
             font-weight: 600;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #1a202c;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
         }
-
-        .nav-item {
-            padding: 1rem 1.2rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
+        .menu-item {
+            padding: 14px 25px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
+            font-size: 0.95rem;
         }
-
-        .nav-item:hover, .nav-item.active {
-            background: #2b6cb0;
-            color: white;
+        .menu-item:hover {
+            background-color: #e8f4fc;
+            color: #3498db;
         }
-
-        /* 右侧内容 */
-        .content {
+        .menu-item.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+        /* 右侧答题区域 */
+        .right-content {
             flex: 1;
-            padding: 2.5rem 3rem;
+            padding: 30px;
+            overflow-y: auto;
         }
-
-        .back-btn {
-            padding: 0.7rem 1.4rem;
-            background: #4a5568;
-            color: white;
-            border: none;
+        .exercise-box {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            padding: 30px;
+            min-height: 100%;
+        }
+        .type-title {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .question {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8fafd;
             border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
         }
-
-        .back-btn:hover {
-            background: #2d3748;
-        }
-
-        .title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-
-        /* 实操题目 */
-        .exercise {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-        }
-
         .q-title {
-            font-size: 1.1rem;
             font-weight: 500;
-            margin-bottom: 1rem;
+            margin-bottom: 12px;
+            font-size: 1rem;
         }
-
         /* 代码编辑器 */
         textarea {
             width: 100%;
-            height: 100px;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-family: Consolas, monospace;
+            height: 140px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: "Consolas", monospace;
             font-size: 14px;
             resize: none;
-            margin-bottom: 0.8rem;
+            margin: 10px 0;
+            outline: none;
         }
-
-        /* 运行按钮 */
+        textarea:focus {
+            border-color: #3498db;
+        }
         .run-btn {
-            padding: 0.6rem 1.2rem;
-            background: #2b6cb0;
-            color: white;
+            padding: 8px 22px;
+            background: #27ae60;
+            color: #fff;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
-            margin-right: 0.5rem;
+            font-size: 0.95rem;
+            transition: background 0.2s;
         }
-
         .run-btn:hover {
-            background: #235c99;
+            background: #219653;
         }
-
-        /* 运行结果 */
-        .output {
-            margin-top: 0.8rem;
-            padding: 1rem;
-            background: #f7fafc;
+        .result {
+            margin-top: 12px;
+            padding: 12px;
+            background: #2d3748;
+            color: #2ecc71;
             border-radius: 6px;
-            font-family: Consolas, monospace;
+            font-family: Consolas;
+            min-height: 40px;
             white-space: pre-wrap;
+        }
+        /* 初始隐藏所有题型 */
+        .exercise-content {
+            display: none;
         }
     </style>
 </head>
 <body>
-
-<div class="layout">
-    <!-- 左侧10类实操题型 -->
-    <div class="sidebar">
-        <div class="sidebar-title">数据分析技术 · 实操题库</div>
-        <div class="nav-item active" onclick="show(1)">1. Python 基础运算</div>
-        <div class="nav-item" onclick="show(2)">2. 列表与字典操作</div>
-        <div class="nav-item" onclick="show(3)">3. Pandas 数据加载</div>
-        <div class="nav-item" onclick="show(4)">4. 数据清洗实操</div>
-        <div class="nav-item" onclick="show(5)">5. 描述统计实操</div>
-        <div class="nav-item" onclick="show(6)">6. 异常值检测</div>
-        <div class="nav-item" onclick="show(7)">7. 数据分组与聚合</div>
-        <div class="nav-item" onclick="show(8)">8. 数据筛选与过滤</div>
-        <div class="nav-item" onclick="show(9)">9. 数据可视化基础</div>
-        <div class="nav-item" onclick="show(10)">10. 综合数据分析</div>
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+        <h2>数据分析技术 - 在线习题练习</h2>
+        <a href="index.html">← 返回首页</a>
     </div>
 
-    <!-- 右侧实操区域 -->
-    <div class="content">
-        <button class="back-btn" onclick="location.href='index.html'">← 返回首页</button>
-        <div class="title" id="main-title">第1类：Python 基础运算</div>
-        <div id="container"></div>
+    <div class="main-wrap">
+        <!-- 左侧10类题型菜单 -->
+        <div class="left-menu">
+            <div class="menu-title">习题分类（10大类型）</div>
+            <div class="menu-item active" data-id="type1">1. 基础数值计算</div>
+            <div class="menu-item" data-id="type2">2. 列表与数组操作</div>
+            <div class="menu-item" data-id="type3">3. 字典与数据映射</div>
+            <div class="menu-item" data-id="type4">4. 描述性统计计算</div>
+            <div class="menu-item" data-id="type5">5. 条件判断数据分析</div>
+            <div class="menu-item" data-id="type6">6. 循环批量数据处理</div>
+            <div class="menu-item" data-id="type7">7. 函数封装分析逻辑</div>
+            <div class="menu-item" data-id="type8">8. NumPy 数值运算</div>
+            <div class="menu-item" data-id="type9">9. 简单数据筛选过滤</div>
+            <div class="menu-item" data-id="type10">10. 综合小型分析案例</div>
+        </div>
+
+        <!-- 右侧答题区域 -->
+        <div class="right-content">
+            <div class="exercise-box">
+                <!-- 第1类：基础数值计算 -->
+                <div class="exercise-content" id="type1" style="display:block;">
+                    <h3 class="type-title">类型一：基础数值计算（10道题）</h3>
+                    <!-- 题目1 -->
+                    <div class="question">
+                        <div class="q-title">题目1：计算 128 + 356 的结果并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目2 -->
+                    <div class="question">
+                        <div class="q-title">题目2：计算 89 * 24 并输出结果</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目3 -->
+                    <div class="question">
+                        <div class="q-title">题目3：计算 1000 ÷ 25 并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目4 -->
+                    <div class="question">
+                        <div class="q-title">题目4：计算 2的8次方 并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目5 -->
+                    <div class="question">
+                        <div class="q-title">题目5：计算 156 对 7 取余数并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目6 -->
+                    <div class="question">
+                        <div class="q-title">题目6：定义变量a=55，b=45，求a-b并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目7 -->
+                    <div class="question">
+                        <div class="q-title">题目7：计算 (12+18)*5 混合运算结果</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目8 -->
+                    <div class="question">
+                        <div class="q-title">题目8：定义单价9.9，数量10，计算总价并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目9 -->
+                    <div class="question">
+                        <div class="q-title">题目9：将 3.1415 保留2位小数并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <!-- 题目10 -->
+                    <div class="question">
+                        <div class="q-title">题目10：计算 100 - 20 * 3 运算结果</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第2类：列表与数组操作 -->
+                <div class="exercise-content" id="type2">
+                    <h3 class="type-title">类型二：列表与数组操作（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：创建列表 [10,20,30,40] 并打印整个列表</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：取出列表 [5,8,12,19] 第2个元素并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：向列表 [1,2,3] 末尾追加元素4并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：删除列表 [9,7,5,3] 最后一个元素并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：统计列表 [2,4,2,6,2] 中数字2出现的次数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：对列表 [9,2,7,1,5] 进行升序排序并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：获取列表 [11,22,33,44] 的长度并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：截取列表 [1,2,3,4,5,6] 前3个元素并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：清空列表 [100,200,300] 并打印空列表</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：合并两个列表 [1,2] 和 [3,4] 并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第3类：字典与数据映射 -->
+                <div class="exercise-content" id="type3">
+                    <h3 class="type-title">类型三：字典与数据映射（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：创建字典 {"姓名":"张三","分数":88} 并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：取出字典 {"语文":90,"数学":95} 中数学的值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：给字典添加新键值对：{"年龄":20} 并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：修改字典中分数为92并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：遍历字典所有键并逐行打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：遍历字典所有值并逐行打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：删除字典中"语文"这个键并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：判断字典中是否存在"地址"这个键</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：获取字典所有键组成列表并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：清空字典内容并打印空字典</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第4类：描述性统计计算 -->
+                <div class="exercise-content" id="type4">
+                    <h3 class="type-title">类型四：描述性统计计算（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：计算列表 [85,92,78,90,88] 总和并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：计算列表平均分（保留1位小数）</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：找出列表中的最大值并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：找出列表中的最小值并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：计算极差（最大值-最小值）并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：统计列表元素总个数并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：将所有分数加5分后生成新列表并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：统计大于85分的元素数量</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：分数降序排列并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：计算总分与平均分并同时输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第5类：条件判断数据分析 -->
+                <div class="exercise-content" id="type5">
+                    <h3 class="type-title">类型五：条件判断数据分析（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：判断分数80是否及格(≥60)，输出"及格/不及格"</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：判断数字15是奇数还是偶数并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：比较a=66、b=88，输出较大的值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：分数95，判断等级：90+优秀，80-89良好，其余合格</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：判断列表中第一个元素是否大于50</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：判断字符串"数据分析"长度是否大于4</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：判断数字是否在 20~50 区间内</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：判断列表是否为空列表</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：判断两个数字是否相等</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：多条件：分数≥80 且 出勤≥90 输出"达标"</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第6类：循环批量数据处理 -->
+                <div class="exercise-content" id="type6">
+                    <h3 class="type-title">类型六：循环批量数据处理（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：使用循环打印 1~10 所有数字</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：循环遍历列表 [10,20,30] 逐个打印元素</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：计算1~10累加和并输出</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：筛选列表中大于50的数字并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：统计列表中偶数的个数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：循环给每个元素乘以2并生成新列表</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：倒序打印列表所有元素</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：循环打印 1~20 之间所有奇数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：遍历字典，逐行打印键和对应值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：循环计算列表所有元素平均值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第7类：函数封装分析逻辑 -->
+                <div class="exercise-content" id="type7">
+                    <h3 class="type-title">类型七：函数封装分析逻辑（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：定义函数，接收两个数，返回两数之和</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：定义函数，判断一个数是否为偶数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：函数计算列表总和并返回</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：函数计算列表平均分</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：函数找出列表最大值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：函数实现分数等级判断</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：函数将列表所有元素加10</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：函数统计列表大于60的元素数量</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：函数接收姓名，输出欢迎语句</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：综合函数：同时返回总和、均值、最大值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第8类：NumPy 数值运算 -->
+                <div class="exercise-content" id="type8">
+                    <h3 class="type-title">类型八：NumPy 数值运算（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：导入numpy，创建一维数组 [1,2,3,4,5]</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：数组所有元素加5并打印</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：计算数组总和</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：计算数组平均值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：获取数组最大值、最小值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：数组元素乘以2</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：创建2行2列二维数组</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：筛选数组中大于3的元素</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：数组排序</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：两个一维数组相加</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第9类：简单数据筛选过滤 -->
+                <div class="exercise-content" id="type9">
+                    <h3 class="type-title">类型九：简单数据筛选过滤（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：筛选列表中所有正数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：筛选分数大于等于80的数据</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：过滤掉列表中的重复值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：筛选出字符串长度大于3的内容</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：筛选区间 [30,70] 内的数字</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：只保留列表中的偶数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：字典列表筛选出性别为男的数据</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：剔除列表中的0值</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：筛选出排名前3的数据</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：综合筛选：大于50 且 为奇数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+
+                <!-- 第10类：综合小型分析案例 -->
+                <div class="exercise-content" id="type10">
+                    <h3 class="type-title">类型十：综合小型分析案例（10道题）</h3>
+                    <div class="question">
+                        <div class="q-title">题目1：学生成绩统计：计算总分、平均分</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目2：销量数据：计算单日平均销量</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目3：统计各分数段人数</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目4：商品单价*数量计算总销售额</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目5：找出销量最高的商品数据</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目6：数据去重后统计有效数据量</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目7：批量计算增长率</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目8：多组数据合并后整体统计</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目9：根据业绩划分评级</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                    <div class="question">
+                        <div class="q-title">题目10：完整小案例：读取列表数据→清洗→统计→输出报告</div>
+                        <textarea class="code-input"></textarea>
+                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <div class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-// 10类题型，每类10道可运行代码实操题
-const data = [
-    // 1 Python基础运算
-    [
-        { q: "1. 计算 123 + 456", code: "print(123 + 456)" },
-        { q: "2. 计算 100 - 58", code: "print(100 - 58)" },
-        { q: "3. 计算 25 * 48", code: "print(25 * 48)" },
-        { q: "4. 计算 256 / 8", code: "print(256 / 8)" },
-        { q: "5. 计算 10的3次方", code: "print(10 ** 3)" },
-        { q: "6. 求 125 对 7 取余", code: "print(125 % 7)" },
-        { q: "7. 定义 a=10, b=20，输出a+b", code: "a=10\nb=20\nprint(a+b)" },
-        { q: "8. 计算圆面积（r=5）", code: "import math\nprint(math.pi * 5**2)" },
-        { q: "9. 将字符串'hello'转为大写", code: "print('hello'.upper())" },
-        { q: "10. 判断 100 是否大于 99", code: "print(100 > 99)" }
-    ],
+    <script>
+        // 初始化Pyodide Python环境
+        let pyodide = null;
+        async function initPyodide() {
+            pyodide = await loadPyodide();
+        }
+        initPyodide();
 
-    // 2 列表字典
-    [
-        { q: "1. 创建列表 [11,22,33] 并输出", code: "lst = [11,22,33]\nprint(lst)" },
-        { q: "2. 获取列表第2个元素", code: "lst = [10,20,30]\nprint(lst[1])" },
-        { q: "3. 在列表末尾添加 99", code: "lst = [1,2,3]\nlst.append(99)\nprint(lst)" },
-        { q: "4. 创建字典：姓名=小明，年龄=20", code: "d = {'name':'小明','age':20}\nprint(d)" },
-        { q: "5. 获取字典中的年龄", code: "d = {'name':'小红','age':21}\nprint(d['age'])" },
-        { q: "6. 遍历列表 [3,6,9] 并输出", code: "for i in [3,6,9]:\n    print(i)" },
-        { q: "7. 列表长度", code: "print(len([1,2,3,4,5]))" },
-        { q: "8. 合并两个列表", code: "a = [1,2]\nb = [3,4]\nprint(a+b)" },
-        { q: "9. 判断 5 是否在列表中", code: "print(5 in [1,2,3,4,5])" },
-        { q: "10. 字典添加键值对", code: "d = {'a':1}\nd['b']=2\nprint(d)" }
-    ],
-
-    // 3 Pandas数据加载
-    [
-        { q: "1. 导入pandas", code: "import pandas as pd\nprint('导入成功')" },
-        { q: "2. 创建简单DataFrame", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df)" },
-        { q: "3. 查看数据前2行", code: "import pandas as pd\ndf = pd.DataFrame({'x':[1,2,3],'y':[4,5,6]})\nprint(df.head(2))" },
-        { q: "4. 查看数据信息", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df.info())" },
-        { q: "5. 查看数据形状", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4]})\nprint(df.shape)" },
-        { q: "6. 查看列名", code: "import pandas as pd\ndf = pd.DataFrame({'name':['a','b'],'age':[1,2]})\nprint(df.columns)" },
-        { q: "7. 查看数据类型", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':['x','y']})\nprint(df.dtypes)" },
-        { q: "8. 查看数值列描述", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\nprint(df.describe())" },
-        { q: "9. 读取csv（模拟）", code: "import pandas as pd\n# df = pd.read_csv('data.csv')\nprint('模拟读取成功')" },
-        { q: "10. 输出全部数据", code: "import pandas as pd\ndf = pd.DataFrame({'x':[10,20],'y':[30,40]})\nprint(df)" }
-    ],
-
-    // 4 数据清洗
-    [
-        { q: "1. 创建含空值数据", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3],'b':[np.nan,2,3]})\nprint(df)" },
-        { q: "2. 查看空值数量", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3],'b':[4,5,np.nan]})\nprint(df.isnull().sum())" },
-        { q: "3. 删除空值行", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,2],'b':[3,4,np.nan]})\nprint(df.dropna())" },
-        { q: "4. 用均值填充空值", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3]})\nprint(df.fillna(df.mean()))" },
-        { q: "5. 删除重复行", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,1,2],'b':[3,3,4]})\nprint(df.drop_duplicates())" },
-        { q: "6. 替换值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]})\nprint(df.replace(1,99))" },
-        { q: "7. 重置索引", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]}).drop(0)\nprint(df.reset_index(drop=True))" },
-        { q: "8. 字段重命名", code: "import pandas as pd\ndf = pd.DataFrame({'old':[1,2]})\nprint(df.rename(columns={'old':'new'}))" },
-        { q: "9. 类型转换", code: "import pandas as pd\ndf = pd.DataFrame({'a':['1','2']})\nprint(df['a'].astype(int))" },
-        { q: "10. 过滤空值列", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[np.nan,np.nan],'b':[1,2]})\nprint(df.dropna(axis=1))" }
-    ],
-
-    // 5 描述统计
-    [
-        { q: "1. 求和", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.sum())" },
-        { q: "2. 求均值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[10,20,30]})\nprint(df.mean())" },
-        { q: "3. 求中位数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.median())" },
-        { q: "4. 求最大值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,9,3]})\nprint(df.max())" },
-        { q: "5. 求最小值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,9,3]})\nprint(df.min())" },
-        { q: "6. 求标准差", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.std())" },
-        { q: "7. 求方差", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3]})\nprint(df.var())" },
-        { q: "8. 四分位数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,6,7]})\nprint(df.quantile([0.25,0.5,0.75]))" },
-        { q: "9. 计数", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df.count())" },
-        { q: "10. 整体描述统计", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5],'b':[10,20,30,40,50]})\nprint(df.describe())" }
-    ],
-
-    // 6 异常值检测
-    [
-        { q: "1. 用箱线图原理找异常值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1 = df.a.quantile(0.25)\nQ3 = df.a.quantile(0.75)\nIQR = Q3-Q1\nprint(df[(df.a < Q1-1.5*IQR) | (df.a > Q3+1.5*IQR)])" },
-        { q: "2. 筛选正常值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\nres = df[(df.a >= Q1-1.5*IQR) & (df.a <= Q3+1.5*IQR)]\nprint(res)" },
-        { q: "3. 3σ原则检测", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,20]})\nmean = df.a.mean()\nstd = df.a.std()\nanomaly = df[(df.a < mean-3*std) | (df.a > mean+3*std)]\nprint(anomaly)" },
-        { q: "4. 过滤大于10的值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[5,11,6,12,7]})\nprint(df[df.a <= 10])" },
-        { q: "5. 查看最大值最小值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,100]})\nprint('max:',df.a.max(),' min:',df.a.min())" },
-        { q: "6. 异常值替换为均值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,50]})\nmean = df.a.mean()\ndf.loc[df.a>10, 'a'] = mean\nprint(df)" },
-        { q: "7. 统计异常值数量", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\noutlier = df[(df.a < Q1-1.5*IQR) | (df.a > Q3+1.5*IQR)]\nprint(len(outlier))" },
-        { q: "8. 无异常值数据", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint('无异常值')" },
-        { q: "9. 按条件标记异常", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,50]})\ndf['is_outlier'] = df.a > 10\nprint(df)" },
-        { q: "10. 清洗后数据输出", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5,100]})\nQ1=df.a.quantile(0.25)\nQ3=df.a.quantile(0.75)\nIQR=Q3-Q1\ndf_clean = df[(df.a >= Q1-1.5*IQR) & (df.a <= Q3+1.5*IQR)]\nprint(df_clean)" }
-    ],
-
-    // 7 分组聚合
-    [
-        { q: "1. 按列分组求和", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').sum())" },
-        { q: "2. 分组求均值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').mean())" },
-        { q: "3. 分组计数", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B','B'],'val':[1,2,3,4]})\nprint(df.groupby('class').count())" },
-        { q: "4. 多列分组", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'sex':['M','F','M'],'score':[80,90,70]})\nprint(df.groupby(['class','sex']).mean())" },
-        { q: "5. 分组最大值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').max())" },
-        { q: "6. 分组最小值", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[80,90,70]})\nprint(df.groupby('class').min())" },
-        { q: "7. 重置分组索引", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','B'],'val':[1,2]})\nprint(df.groupby('class').sum().reset_index())" },
-        { q: "8. 对不同列用不同聚合", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'a':[1,2,3],'b':[4,5,6]})\nprint(df.groupby('class').agg({'a':'sum','b':'mean'}))" },
-        { q: "9. 查看分组对象", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'val':[1,2,3]})\ng = df.groupby('class')\nfor name,group in g:\n    print(name)\n    print(group)" },
-        { q: "10. 分组后筛选", code: "import pandas as pd\ndf = pd.DataFrame({'class':['A','A','B'],'score':[50,60,80]})\nprint(df.groupby('class').filter(lambda x: x['score'].mean() > 55))" }
-    ],
-
-    // 8 数据筛选
-    [
-        { q: "1. 筛选大于5的值", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,6,3,8,5]})\nprint(df[df.a>5])" },
-        { q: "2. 多条件筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,6,3,8],'b':[10,20,30,40]})\nprint(df[(df.a>5) & (df.b>25)])" },
-        { q: "3. 筛选等于3", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,3]})\nprint(df[df.a==3])" },
-        { q: "4. 筛选不等于2", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df[df.a!=2])" },
-        { q: "5. 包含在列表中", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df[df.a.isin([2,4])])" },
-        { q: "6. 筛选前N行", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4,5]})\nprint(df.head(3))" },
-        { q: "7. 按索引筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[10,20,30]})\nprint(df.loc[1])" },
-        { q: "8. 筛选列", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2],'b':[3,4],'c':[5,6]})\nprint(df[['a','c']])" },
-        { q: "9. 模糊匹配字符串", code: "import pandas as pd\ndf = pd.DataFrame({'name':['apple','apply','app','banana']})\nprint(df[df.name.str.contains('app')])" },
-        { q: "10. 取反筛选", code: "import pandas as pd\ndf = pd.DataFrame({'a':[1,2,3,4]})\nprint(df[~(df.a>2)])" }
-    ],
-
-    // 9 可视化基础
-    [
-        { q: "1. 折线图基础", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3,4],'b':[4,3,2,1]})\ndf.plot(kind='line')\nplt.title('line')\nplt.show()\nprint('折线图已输出')" },
-        { q: "2. 柱状图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\ndf.plot(kind='bar')\nplt.title('bar')\nplt.show()\nprint('柱状图已输出')" },
-        { q: "3. 直方图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'data':[1,2,3,3,3,4,4,5]})\ndf['data'].plot(kind='hist')\nplt.title('hist')\nplt.show()\nprint('直方图已输出')" },
-        { q: "4. 散点图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'x':[1,2,3,4],'y':[2,4,1,3]})\ndf.plot(kind='scatter',x='x',y='y')\nplt.title('scatter')\nplt.show()\nprint('散点图已输出')" },
-        { q: "5. 箱线图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3,4,5,10]})\ndf.plot(kind='box')\nplt.title('box')\nplt.show()\nprint('箱线图已输出')" },
-        { q: "6. 饼图", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ns = pd.Series([10,20,30],index=['A','B','C'])\ns.plot(kind='pie')\nplt.title('pie')\nplt.show()\nprint('饼图已输出')" },
-        { q: "7. 设置标题", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.title('销售趋势')\nplt.show()\nprint('标题设置成功')" },
-        { q: "8. 设置坐标轴", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.xlabel('月份')\nplt.ylabel('销量')\nplt.show()\nprint('坐标轴设置成功')" },
-        { q: "9. 多图并列", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3],'b':[3,2,1]})\ndf.plot(subplots=True)\nplt.show()\nprint('多子图输出')" },
-        { q: "10. 保存图片", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'a':[1,2,3]})\ndf.plot()\nplt.savefig('plot.png')\nprint('图片已保存为 plot.png')" }
-    ],
-
-    // 10 综合数据分析
-    [
-        { q: "1. 完整数据分析流程", code: "import pandas as pd\ndf = pd.DataFrame({'name':['A','B','C'],'score':[85,92,78]})\nprint('数据预览')\nprint(df.head())\nprint('\\n描述统计')\nprint(df.describe())" },
-        { q: "2. 数据加载+清洗+分析", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a':[1,np.nan,3,4],'b':[5,6,np.nan,8]})\ndf = df.fillna(df.mean())\nprint('清洗完成')\nprint(df)" },
-        { q: "3. 分析+可视化", code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'x':[1,2,3,4],'y':[10,20,15,25]})\nprint('均值：', df.mean())\ndf.plot()\nplt.show()\nprint('可视化完成')" },
-        { q: "4. 业务指标计算", code: "import pandas as pd\ndf = pd.DataFrame({'sales':[100,200,300],'cost':[50,100,150]})\ndf['profit'] = df.sales - df.cost\ndf['rate'] = df.profit / df.sales\nprint(df)" },
-        { q: "5. 多维度分析", code: "import pandas as pd\ndf = pd.DataFrame({'city':['GZ','SZ','GZ','SZ'],'sales':[100,200,150,250]})\nprint(df.groupby('city').sum())" },
-        { q: "6. 数据结论输出", code: "import pandas as pd\ndf = pd.DataFrame({'a':[80,90,85,95]})\nmean = df.a.mean()\nprint(f'平均分：{mean:.2f}')\nprint('结论：成绩良好')" },
-        { q: "7. 对比分析", code: "import pandas as pd\ndf = pd.DataFrame({'1月':[100],'2月':[150]})\ndf['增长'] = df['2月'] - df['1月']\ndf['增长率'] = df.增长 / df['1月']\nprint(df)" },
-        { q: "8. 结构分析", code: "import pandas as pd\ndf = pd.DataFrame({'产品':['A','B','C'],'销量':[200,300,500]})\ndf['占比'] = df.销量 / df.销量.sum()\nprint(df)" },
-        { q: "9. 异常+清洗+分析", code: "import pandas as pd\ndf = pd.DataFrame({'val':[10,20,30,1000]})\ndf = df[df.val < 500]\nprint('清洗后：')\nprint(df)\nprint('均值：', df.val.mean())" },
-        { q: "10. 完整商务数据分析报告", code: "import pandas as pd\ndf = pd.DataFrame({'month':[1,2,3],'sales':[100,200,300]})\nprint('=== 商务数据分析报告 ===')\nprint(df)\nprint('\\n总销售额：', df.sales.sum())\nprint('月均销售额：', df.sales.mean())\nprint('结论：销售呈上升趋势')" }
-    ]
-];
-
-// 题型名称
-const names = [
-    "Python 基础运算",
-    "列表与字典操作",
-    "Pandas 数据加载",
-    "数据清洗实操",
-    "描述统计实操",
-    "异常值检测",
-    "数据分组与聚合",
-    "数据筛选与过滤",
-    "数据可视化基础",
-    "综合数据分析"
-];
-
-// 渲染页面
-function show(idx) {
-    const container = document.getElementById('container');
-    const title = document.getElementById('main-title');
-    title.innerText = `第${idx}类：${names[idx-1]}`;
-
-    let html = '';
-    data[idx-1].forEach((item, i) => {
-        html += `
-        <div class="exercise">
-            <div class="q-title">${item.q}</div>
-            <textarea id="code${i}">${item.code}</textarea>
-            <button class="run-btn" onclick="run(${i})">运行代码</button>
-            <div id="out${i}" class="output"></div>
-        </div>`;
-    });
-    container.innerHTML = html;
-}
-
-// 运行代码（模拟Python运行）
-function run(i) {
-    const code = document.getElementById(`code${i}`).value;
-    const out = document.getElementById(`out${i}`);
-    out.innerText = "👉 运行结果（模拟环境）：\n" + code + "\n\n✅ 代码可在本地Python环境中直接运行！";
-}
-
-// 初始化
-show(1);
-</script>
-</body>
-</html>
+        // 运行Python代码
+        async function runCode(btn) {
+            if(!pyodide) {
+                btn.nextElementSibling.textContent = "Python环境加载中，请稍候...";
+                return;
+            }
+            const codeArea = btn.previousElementSibling;
+            const resArea = btn.nextElementSibling;
+            const code = codeArea.value;
+            try {
+                // 捕获print输出
+                pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = buf = StringIO()
+`);
+                pyodide.runPython(code);
+                const output = pyodide.runPython("buf.getvalue()");
+                resArea.textContent = output || "代码执行完成，无输出";
+            }
