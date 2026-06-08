@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据分析技术 - 习题练习</title>
-    <!-- 引入Pyodide 前端Python运行环境 -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
     <style>
         * {
@@ -17,7 +16,6 @@
             background-color: #f1f4f8;
             color: #2d3748;
         }
-        /* 顶部导航 */
         .top-nav {
             background: #2c3e50;
             color: #fff;
@@ -29,13 +27,12 @@
         .top-nav a {
             color: #3498db;
             text-decoration: none;
+            font-size: 1rem;
         }
-        /* 主体左右布局 */
         .main-wrap {
             display: flex;
             height: calc(100vh - 66px);
         }
-        /* 左侧题型菜单 */
         .left-menu {
             width: 260px;
             background: #fff;
@@ -65,7 +62,6 @@
             background-color: #3498db;
             color: #fff;
         }
-        /* 右侧答题区域 */
         .right-content {
             flex: 1;
             padding: 30px;
@@ -96,7 +92,6 @@
             margin-bottom: 12px;
             font-size: 1rem;
         }
-        /* 代码编辑器 */
         textarea {
             width: 100%;
             height: 140px;
@@ -108,6 +103,7 @@
             resize: none;
             margin: 10px 0;
             outline: none;
+            background: #fff;
         }
         textarea:focus {
             border-color: #3498db;
@@ -135,21 +131,18 @@
             min-height: 40px;
             white-space: pre-wrap;
         }
-        /* 初始隐藏所有题型 */
         .exercise-content {
             display: none;
         }
     </style>
 </head>
 <body>
-    <!-- 顶部导航 -->
     <div class="top-nav">
         <h2>数据分析技术 - 在线习题练习</h2>
         <a href="index.html">← 返回首页</a>
     </div>
 
     <div class="main-wrap">
-        <!-- 左侧10类题型菜单 -->
         <div class="left-menu">
             <div class="menu-title">习题分类（10大类型）</div>
             <div class="menu-item active" data-id="type1">1. 基础数值计算</div>
@@ -164,665 +157,654 @@
             <div class="menu-item" data-id="type10">10. 综合小型分析案例</div>
         </div>
 
-        <!-- 右侧答题区域 -->
         <div class="right-content">
             <div class="exercise-box">
-                <!-- 第1类：基础数值计算 -->
+                <!-- 类型1 -->
                 <div class="exercise-content" id="type1" style="display:block;">
                     <h3 class="type-title">类型一：基础数值计算（10道题）</h3>
-                    <!-- 题目1 -->
                     <div class="question">
                         <div class="q-title">题目1：计算 128 + 356 的结果并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目2 -->
                     <div class="question">
                         <div class="q-title">题目2：计算 89 * 24 并输出结果</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目3 -->
                     <div class="question">
                         <div class="q-title">题目3：计算 1000 ÷ 25 并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目4 -->
                     <div class="question">
                         <div class="q-title">题目4：计算 2的8次方 并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目5 -->
                     <div class="question">
                         <div class="q-title">题目5：计算 156 对 7 取余数并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目6 -->
                     <div class="question">
                         <div class="q-title">题目6：定义变量a=55，b=45，求a-b并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目7 -->
                     <div class="question">
                         <div class="q-title">题目7：计算 (12+18)*5 混合运算结果</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目8 -->
                     <div class="question">
                         <div class="q-title">题目8：定义单价9.9，数量10，计算总价并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目9 -->
                     <div class="question">
                         <div class="q-title">题目9：将 3.1415 保留2位小数并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
-                    <!-- 题目10 -->
                     <div class="question">
                         <div class="q-title">题目10：计算 100 - 20 * 3 运算结果</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第2类：列表与数组操作 -->
+                <!-- 类型2 -->
                 <div class="exercise-content" id="type2">
                     <h3 class="type-title">类型二：列表与数组操作（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：创建列表 [10,20,30,40] 并打印整个列表</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：取出列表 [5,8,12,19] 第2个元素并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目3：向列表 [1,2,3] 末尾追加元素4并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目4：删除列表 [9,7,5,3] 最后一个元素并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目5：统计列表 [2,4,2,6,2] 中数字2出现的次数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目6：对列表 [9,2,7,1,5] 进行升序排序并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目7：获取列表 [11,22,33,44] 的长度并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目8：截取列表 [1,2,3,4,5,6] 前3个元素并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目9：清空列表 [100,200,300] 并打印空列表</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目10：合并两个列表 [1,2] 和 [3,4] 并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第3类：字典与数据映射 -->
+                <!-- 类型3 -->
                 <div class="exercise-content" id="type3">
                     <h3 class="type-title">类型三：字典与数据映射（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：创建字典 {"姓名":"张三","分数":88} 并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：取出字典 {"语文":90,"数学":95} 中数学的值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目3：给字典添加新键值对：{"年龄":20} 并打印</div>
+                        <div class="q-title">题目3：给字典{"姓名":"李四"}添加新键值对：{"年龄":20} 并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目4：修改字典中分数为92并打印</div>
+                        <div class="q-title">题目4：修改字典{"分数":80}中分数为92并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：遍历字典所有键并逐行打印</div>
+                        <div class="q-title">题目5：遍历字典 {"a":1,"b":2} 所有键并逐行打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目6：遍历字典所有值并逐行打印</div>
+                        <div class="q-title">题目6：遍历字典 {"a":1,"b":2} 所有值并逐行打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目7：删除字典中"语文"这个键并打印</div>
+                        <div class="q-title">题目7：删除字典 {"语文":90,"数学":95} 中"语文"这个键并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目8：判断字典中是否存在"地址"这个键</div>
+                        <div class="q-title">题目8：判断字典 {"姓名":"王五"} 中是否存在"地址"这个键</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：获取字典所有键组成列表并打印</div>
+                        <div class="q-title">题目9：获取字典 {"x":10,"y":20} 所有键组成列表并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：清空字典内容并打印空字典</div>
+                        <div class="q-title">题目10：清空字典 {"数据":100} 内容并打印空字典</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第4类：描述性统计计算 -->
+                <!-- 类型4 -->
                 <div class="exercise-content" id="type4">
                     <h3 class="type-title">类型四：描述性统计计算（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：计算列表 [85,92,78,90,88] 总和并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目2：计算列表平均分（保留1位小数）</div>
+                        <div class="q-title">题目2：计算列表 [85,92,78,90,88] 平均分（保留1位小数）</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目3：找出列表中的最大值并打印</div>
+                        <div class="q-title">题目3：找出列表 [85,92,78,90,88] 中的最大值并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目4：找出列表中的最小值并打印</div>
+                        <div class="q-title">题目4：找出列表 [85,92,78,90,88] 中的最小值并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：计算极差（最大值-最小值）并输出</div>
+                        <div class="q-title">题目5：计算列表 [85,92,78,90,88] 极差（最大值-最小值）并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目6：统计列表元素总个数并打印</div>
+                        <div class="q-title">题目6：统计列表 [85,92,78,90,88] 元素总个数并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目7：将所有分数加5分后生成新列表并打印</div>
+                        <div class="q-title">题目7：将列表 [85,92,78,90,88] 所有分数加5分后生成新列表并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目8：统计大于85分的元素数量</div>
+                        <div class="q-title">题目8：统计列表 [85,92,78,90,88] 中大于85分的元素数量</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：分数降序排列并打印</div>
+                        <div class="q-title">题目9：将列表 [85,92,78,90,88] 分数降序排列并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：计算总分与平均分并同时输出</div>
+                        <div class="q-title">题目10：计算列表 [85,92,78,90,88] 总分与平均分并同时输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第5类：条件判断数据分析 -->
+                <!-- 类型5 -->
                 <div class="exercise-content" id="type5">
                     <h3 class="type-title">类型五：条件判断数据分析（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：判断分数80是否及格(≥60)，输出"及格/不及格"</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：判断数字15是奇数还是偶数并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目3：比较a=66、b=88，输出较大的值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目4：分数95，判断等级：90+优秀，80-89良好，其余合格</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：判断列表中第一个元素是否大于50</div>
+                        <div class="q-title">题目5：判断列表 [60,70,80] 中第一个元素是否大于50</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目6：判断字符串"数据分析"长度是否大于4</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目7：判断数字是否在 20~50 区间内</div>
+                        <div class="q-title">题目7：判断数字35是否在 20~50 区间内</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目8：判断列表是否为空列表</div>
+                        <div class="q-title">题目8：判断空列表 [] 是否为空列表</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：判断两个数字是否相等</div>
+                        <div class="q-title">题目9：判断两个数字 22 和 33 是否相等</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：多条件：分数≥80 且 出勤≥90 输出"达标"</div>
+                        <div class="q-title">题目10：多条件：分数=85 且 出勤=92，输出"达标"</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第6类：循环批量数据处理 -->
+                <!-- 类型6 -->
                 <div class="exercise-content" id="type6">
                     <h3 class="type-title">类型六：循环批量数据处理（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：使用循环打印 1~10 所有数字</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：循环遍历列表 [10,20,30] 逐个打印元素</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目3：计算1~10累加和并输出</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目4：筛选列表中大于50的数字并打印</div>
+                        <div class="q-title">题目4：筛选列表 [40,60,70,30] 中大于50的数字并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：统计列表中偶数的个数</div>
+                        <div class="q-title">题目5：统计列表 [1,2,3,4,5,6] 中偶数的个数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目6：循环给每个元素乘以2并生成新列表</div>
+                        <div class="q-title">题目6：循环给列表 [1,2,3] 每个元素乘以2并生成新列表</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目7：倒序打印列表所有元素</div>
+                        <div class="q-title">题目7：倒序打印列表 [1,2,3,4] 所有元素</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目8：循环打印 1~20 之间所有奇数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：遍历字典，逐行打印键和对应值</div>
+                        <div class="q-title">题目9：遍历字典 {"语文":90,"数学":95}，逐行打印键和对应值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：循环计算列表所有元素平均值</div>
+                        <div class="q-title">题目10：循环计算列表 [10,20,30,40] 所有元素平均值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第7类：函数封装分析逻辑 -->
+                <!-- 类型7 -->
                 <div class="exercise-content" id="type7">
                     <h3 class="type-title">类型七：函数封装分析逻辑（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：定义函数，接收两个数，返回两数之和</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：定义函数，判断一个数是否为偶数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目3：函数计算列表总和并返回</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目4：函数计算列表平均分</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目5：函数找出列表最大值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目6：函数实现分数等级判断</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目7：函数将列表所有元素加10</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目8：函数统计列表大于60的元素数量</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目9：函数接收姓名，输出欢迎语句</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目10：综合函数：同时返回总和、均值、最大值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第8类：NumPy 数值运算 -->
+                <!-- 类型8 -->
                 <div class="exercise-content" id="type8">
                     <h3 class="type-title">类型八：NumPy 数值运算（10道题）</h3>
                     <div class="question">
                         <div class="q-title">题目1：导入numpy，创建一维数组 [1,2,3,4,5]</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目2：数组所有元素加5并打印</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目3：计算数组总和</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目4：计算数组平均值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目5：获取数组最大值、最小值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目6：数组元素乘以2</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目7：创建2行2列二维数组</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目8：筛选数组中大于3的元素</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目9：数组排序</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目10：两个一维数组相加</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第9类：简单数据筛选过滤 -->
+                <!-- 类型9 -->
                 <div class="exercise-content" id="type9">
                     <h3 class="type-title">类型九：简单数据筛选过滤（10道题）</h3>
                     <div class="question">
-                        <div class="q-title">题目1：筛选列表中所有正数</div>
+                        <div class="q-title">题目1：筛选列表 [-5,10,-3,20] 中所有正数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目2：筛选分数大于等于80的数据</div>
+                        <div class="q-title">题目2：筛选分数 [70,85,90,65] 大于等于80的数据</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目3：过滤掉列表中的重复值</div>
+                        <div class="q-title">题目3：过滤掉列表 [1,2,2,3,3,3] 中的重复值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目4：筛选出字符串长度大于3的内容</div>
+                        <div class="q-title">题目4：筛选列表 ["数据","分析","学习平台"] 字符串长度大于3的内容</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：筛选区间 [30,70] 内的数字</div>
+                        <div class="q-title">题目5：筛选列表 [20,40,60,80] 区间 [30,70] 内的数字</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目6：只保留列表中的偶数</div>
+                        <div class="q-title">题目6：只保留列表 [1,2,3,4,5,6] 中的偶数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
                         <div class="q-title">题目7：字典列表筛选出性别为男的数据</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目8：剔除列表中的0值</div>
+                        <div class="q-title">题目8：剔除列表 [0,10,0,20,30] 中的0值</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：筛选出排名前3的数据</div>
+                        <div class="q-title">题目9：对列表 [90,70,80,60] 排序后筛选出排名前3的数据</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：综合筛选：大于50 且 为奇数</div>
+                        <div class="q-title">题目10：综合筛选列表 [51,22,55,60,33]：大于50 且 为奇数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
 
-                <!-- 第10类：综合小型分析案例 -->
+                <!-- 类型10 -->
                 <div class="exercise-content" id="type10">
                     <h3 class="type-title">类型十：综合小型分析案例（10道题）</h3>
                     <div class="question">
-                        <div class="q-title">题目1：学生成绩统计：计算总分、平均分</div>
+                        <div class="q-title">题目1：学生成绩统计：列表[88,92,76,80]计算总分、平均分</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目2：销量数据：计算单日平均销量</div>
+                        <div class="q-title">题目2：销量数据[120,150,130]计算单日平均销量</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目3：统计各分数段人数</div>
+                        <div class="q-title">题目3：统计分数[85,92,78,90,65]各分数段人数</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目4：商品单价*数量计算总销售额</div>
+                        <div class="q-title">题目4：商品单价25，数量8，计算总销售额</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目5：找出销量最高的商品数据</div>
+                        <div class="q-title">题目5：找出销量[200,180,220,190]最高的商品数据</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目6：数据去重后统计有效数据量</div>
+                        <div class="q-title">题目6：数据[10,20,20,30,30,30]去重后统计有效数据量</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目7：批量计算增长率</div>
+                        <div class="q-title">题目7：上期销量100，本期销量120，计算增长率</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目8：多组数据合并后整体统计</div>
+                        <div class="q-title">题目8：合并两组数据[1,2,3]和[4,5,6]后整体统计总和</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目9：根据业绩划分评级</div>
+                        <div class="q-title">题目9：业绩分数86，划分评级：90+优秀，80-89良好，70-79中等，其余待提升</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                     <div class="question">
-                        <div class="q-title">题目10：完整小案例：读取列表数据→清洗→统计→输出报告</div>
+                        <div class="q-title">题目10：完整小案例：数据[82,95,73,88]→清洗→统计总分、均值、极值并输出报告</div>
                         <textarea class="code-input"></textarea>
-                        <button class="run-btn" onclick="runCode(this)">运行代码</button>
+                        <button class="run-btn">运行代码</button>
                         <div class="result"></div>
                     </div>
                 </div>
@@ -831,30 +813,60 @@
     </div>
 
     <script>
-        // 初始化Pyodide Python环境
+        // 1. 初始化Python运行环境
         let pyodide = null;
         async function initPyodide() {
             pyodide = await loadPyodide();
         }
         initPyodide();
 
-        // 运行Python代码
-        async function runCode(btn) {
-            if(!pyodide) {
-                btn.nextElementSibling.textContent = "Python环境加载中，请稍候...";
-                return;
-            }
-            const codeArea = btn.previousElementSibling;
-            const resArea = btn.nextElementSibling;
-            const code = codeArea.value;
-            try {
-                // 捕获print输出
-                pyodide.runPython(`
+        // 2. 左侧菜单切换逻辑（修复所有分类点击）
+        const menuItems = document.querySelectorAll('.menu-item');
+        const contents = document.querySelectorAll('.exercise-content');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(){
+                // 移除所有激活样式
+                menuItems.forEach(m => m.classList.remove('active'));
+                // 隐藏所有内容
+                contents.forEach(c => c.style.display = 'none');
+                // 当前项激活
+                this.classList.add('active');
+                // 显示对应内容
+                const targetId = this.getAttribute('data-id');
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+
+        // 3. 统一绑定运行代码按钮（所有按钮生效）
+        const runBtns = document.querySelectorAll('.run-btn');
+        runBtns.forEach(btn => {
+            btn.addEventListener('click', async function(){
+                if(!pyodide){
+                    this.nextElementSibling.innerText = "Python环境加载中，请稍候...";
+                    return;
+                }
+                const codeArea = this.previousElementSibling;
+                const resArea = this.nextElementSibling;
+                const code = codeArea.value;
+
+                try {
+                    // 重置输出捕获
+                    pyodide.runPython(`
 import sys
 from io import StringIO
-sys.stdout = buf = StringIO()
-`);
-                pyodide.runPython(code);
-                const output = pyodide.runPython("buf.getvalue()");
-                resArea.textContent = output || "代码执行完成，无输出";
-            }
+sys.stdout = _std_buf = StringIO()
+                `);
+                    // 执行代码
+                    pyodide.runPython(code);
+                    // 获取输出
+                    const output = pyodide.runPython("_std_buf.getvalue()");
+                    resArea.innerText = output || "代码执行完成，无输出内容";
+                } catch (err) {
+                    resArea.innerText = "代码错误：\n" + err.toString();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
