@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析技术 - 练习题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Microsoft YaHei, sans-serif;
+        }
+
+        body {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        /* 布局 */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 左侧导航 */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            padding: 2rem 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1a202c;
+            text-align: center;
+        }
+
+        .nav-item {
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: #3182ce;
+            color: white;
+        }
+
+        /* 右侧内容 */
+        .content {
+            flex: 1;
+            padding: 2.5rem 3rem;
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #2d3748;
+        }
+
+        .question-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            margin-bottom: 1.5rem;
+            padding: 0.7rem 1.4rem;
+            background: #718096;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- 左侧10类题型 -->
+        <div class="sidebar">
+            <div class="sidebar-title">数据分析技术题库</div>
+            <div class="nav-item active" onclick="show(1)">1. 数据认知题</div>
+            <div class="nav-item" onclick="show(2)">2. 数据类型题</div>
+            <div class="nav-item" onclick="show(3)">3. 数据清洗题</div>
+            <div class="nav-item" onclick="show(4)">4. 描述统计题</div>
+            <div class="nav-item" onclick="show(5)">5. 数据分布题</div>
+            <div class="nav-item" onclick="show(6)">6. 数据异常值题</div>
+            <div class="nav-item" onclick="show(7)">7. 相关性分析题</div>
+            <div class="nav-item" onclick="show(8)">8. 对比分析题</div>
+            <div class="nav-item" onclick="show(9)">9. 指标计算分析题</div>
+            <div class="nav-item" onclick="show(10)">10. 综合应用题</div>
+        </div>
+
+        <!-- 右侧题目 -->
+        <div class="content">
+            <button class="back-btn" onclick="location.href='index.html'">← 返回首页</button>
+            <div class="content-title" id="type-title">第一类：数据认知题</div>
+            <div id="q-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // 10类题型 + 每类10道题
+        const data = [
+            // 1
+            [{q:"1. 什么是结构化数据？"},{q:"2. 什么是非结构化数据？"},{q:"3. 数据分析的核心目标是什么？"},{q:"4. 商务数据分析的应用场景有哪些？"},{q:"5. 原始数据与处理后数据的区别是什么？"},{q:"6. 数据质量的评价指标有哪些？"},{q:"7. 为什么要进行数据预处理？"},{q:"8. 大数据的4V特征是什么？"},{q:"9. 截面数据与时间序列数据的区别？"},{q:"10. 数据与信息的关系是什么？"}],
+            // 2
+            [{q:"1. 下列属于分类数据的是？"},{q:"2. 数值型数据分为哪两种？"},{q:"3. 顺序数据的特点是什么？"},{q:"4. 性别属于什么类型数据？"},{q:"5. 成绩等级（优/良）属于什么数据？"},{q:"6. 温度属于什么数据类型？"},{q:"7. 分类数据能否计算平均值？"},{q:"8. 离散数据与连续数据的区别？"},{q:"9. 月份属于什么数据类型？"},{q:"10. 商品ID属于定性还是定量数据？"}],
+            // 3
+            [{q:"1. 数据清洗的主要任务是什么？"},{q:"2. 缺失值的常见处理方法有哪些？"},{q:"3. 重复数据会带来什么问题？"},{q:"4. 如何检测异常数据？"},{q:"5. 不一致数据指的是什么？"},{q:"6. 为什么要统一数据格式？"},{q:"7. 处理缺失值时删除法的适用场景？"},{q:"8. 插值法填补缺失值的原理？"},{q:"9. 数据清洗的一般流程？"},{q:"10. 清洗后为什么要做数据验证？"}],
+            // 4
+            [{q:"1. 集中趋势指标包括哪些？"},{q:"2. 均值、中位数、众数的区别？"},{q:"3. 什么是离散程度？"},{q:"4. 方差与标准差的意义？"},{q:"5. 四分位数的作用是什么？"},{q:"6. 如何计算极差？"},{q:"7. 变异系数用于比较什么？"},{q:"8. 偏态系数反映什么特征？"},{q:"9. 峰度表示数据的什么特点？"},{q:"10. 描述统计的核心目的是什么？"}],
+            // 5
+            [{q:"1. 正态分布的特征是什么？"},{q:"2. 均匀分布的特点？"},{q:"3. 如何判断数据是否近似正态？"},{q:"4. 右偏分布的均值与中位数关系？"},{q:"5. 左偏分布的众数位置？"},{q:"6. 分布形态对分析的影响？"},{q:"7. 什么是双峰分布？"},{q:"8. 直方图用于观察什么？"},{q:"9. 箱线图能展示分布哪些信息？"},{q:"10. 数据分布对业务决策的意义？"}],
+            // 6
+            [{q:"1. 什么是异常值？"},{q:"2. 异常值产生的原因？"},{q:"3. 3σ原则如何识别异常？"},{q:"4. 箱线图如何判断异常值？"},{q:"5. 异常值必须删除吗？为什么？"},{q:"6. 如何处理业务合理的异常值？"},{q:"7. 异常值对均值的影响？"},{q:"8. 异常值对模型的影响？"},{q:"9. 哪些方法可以修正异常值？"},{q:"10. 异常检测在商务中的用途？"}],
+            // 7
+            [{q:"1. 相关系数的取值范围？"},{q:"2. 正相关与负相关的区别？"},{q:"3. 皮尔逊相关适用条件？"},{q:"4. 相关等于因果吗？"},{q:"5. 如何判断相关性强弱？"},{q:"6. 散点图的作用是什么？"},{q:"7. 高度相关但无意义的现象叫什么？"},{q:"8. 相关性分析的步骤？"},{q:"9. 非线性关系如何分析？"},{q:"10. 供应链中相关性的应用？"}],
+            // 8
+            [{q:"1. 对比分析的基本原则？"},{q:"2. 同比与环比的区别？"},{q:"3. 横向对比与纵向对比含义？"},{q:"4. 标准值对比的用途？"},{q:"5. 实际与计划对比分析什么？"},{q:"6. 结构对比分析的意义？"},{q:"7. 为什么要统一口径再对比？"},{q:"8. 多维度对比包括哪些？"},{q:"9. 对比分析在销售中的应用？"},{q:"10. 对比分析的常见误区？"}],
+            // 9
+            [{q:"1. 转化率如何计算？"},{q:"2. 复购率公式是什么？"},{q:"3. 客单价的计算方式？"},{q:"4. 库存周转率含义？"},{q:"5. 达成率如何计算？"},{q:"6. 增长率计算公式？"},{q:"7. 毛利率与净利率区别？"},{q:"8. 流失率如何统计？"},{q:"9. 活跃度指标如何定义？"},{q:"10. 商务指标体系包含哪些？"}],
+            // 10
+            [{q:"1. 结合业务设计一份简单数据分析思路？"},{q:"2. 如何从数据中发现业务问题？"},{q:"3. 一份完整分析报告包含哪些部分？"},{q:"4. 如何用数据支撑决策？"},{q:"5. 电商数据分析的核心指标？"},{q:"6. 供应链数据如何指导库存？"},{q:"7. 描述+清洗+分析+可视化的完整流程？"},{q:"8. 如何向非技术人员解释数据分析结果？"},{q:"9. 用3个指标评价店铺运营状况？"},{q:"10. 商务数据分析未来发展趋势？"}]
+        ];
+
+        // 切换题目
+        function show(n) {
+            const list = document.getElementById('q-list');
+            const title = document.getElementById('type-title');
+            const names = ["数据认知题","数据类型题","数据清洗题","描述统计题","数据分布题","数据异常值题","相关性分析题","对比分析题","指标计算分析题","综合应用题"];
+            
+            title.innerText = `第${n}类：${names[n-1]}`;
+            list.innerHTML = data[n-1].map(item => 
+                `<div class="question-box"><div class="question">${item.q}</div></div>`
+            ).join('');
+
+            // 高亮
+            document.querySelectorAll('.nav-item').forEach((i,k) => {
+                i.classList.toggle('active', k === n-1);
+            });
+        }
+    </script>
+</body>
+</html>
