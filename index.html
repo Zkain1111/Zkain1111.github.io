@@ -1,452 +1,565 @@
+personal-study-page/
+├── index.html          # 首页：6门课程总览
+├── data-analysis.html  # 数据分析技术：在线代码运行页
+├── exercises.html      # 数据分析技术：十类习题页
+└── css/
+    └── style.css       # 全局样式（统一高级简约风格）
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+/* 头部导航 */
+header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 1.2rem 5%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-title h1 {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+.nav-title p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+.nav-link a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+.nav-link a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* 容器通用 */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 5%;
+}
+
+/* 按钮通用样式（真实可点击） */
+.btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+.btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(52,152,219,0.3);
+}
+
+/* 卡片布局 - 课程卡片 */
+.course-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.8rem;
+    margin-top: 2rem;
+}
+.course-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+}
+.course-card:hover {
+    transform: translateY(-5px);
+}
+.course-card h3 {
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+    font-size: 1.25rem;
+}
+.course-card p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+    min-height: 80px;
+}
+
+/* 代码编辑器区域 */
+.code-box {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+.code-area {
+    flex: 1;
+}
+.code-area textarea {
+    width: 100%;
+    height: 400px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: "Consolas", monospace;
+    font-size: 14px;
+    resize: none;
+    background: #1e1e1e;
+    color: #dcdcdc;
+}
+.result-area {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    height: 400px;
+    overflow-y: auto;
+}
+.result-area h4 {
+    margin-bottom: 0.8rem;
+    color: #2c3e50;
+}
+#run-result {
+    font-family: "Consolas", monospace;
+    color: #27ae60;
+    white-space: pre-wrap;
+}
+
+/* 习题页布局：左右分栏 */
+.exercise-wrap {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.exercise-left {
+    width: 220px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 1rem;
+}
+.exercise-left h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+.ex-item {
+    padding: 10px 12px;
+    margin: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.ex-item:hover {
+    background: #ecf0f1;
+}
+.ex-item.active {
+    background: #3498db;
+    color: #fff;
+}
+.exercise-right {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+}
+.question-item {
+    margin: 1.2rem 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #eee;
+}
+.question-item:last-child {
+    border: none;
+}
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑凯茵 | 商务数据分析学习主页</title>
-    <!-- CodeMirror 代码编辑器 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.css">
-    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/codemirror@5/mode/python/python.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/theme/dracula.css">
-    <!-- Pyodide 真实Python运行环境 -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-        }
-
-        :root {
-            --bg-main: #0b101b;
-            --bg-card: #161d2d;
-            --border: #2a3347;
-            --primary: #22d3ee;
-            --text-main: #e5e7eb;
-            --text-gray: #9ca3af;
-            --warn: #facc15;
-            --success: #4ade80;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        /* 头部信息 */
-        .hero {
-            text-align: center;
-            padding: 3rem 1rem;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 0.8rem;
-            letter-spacing: 2px;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-gray);
-            line-height: 1.8;
-        }
-
-        /* 通用标题 */
-        .section-title {
-            font-size: 1.6rem;
-            margin: 3rem 0 1.5rem;
-            padding-left: 1rem;
-            border-left: 4px solid var(--primary);
-            color: var(--text-main);
-        }
-
-        /* 课程卡片网格 */
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .course-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.12);
-        }
-
-        .course-card h3 {
-            color: var(--primary);
-            font-size: 1.25rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .course-desc {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .course-content {
-            display: none;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        .course-card.active .course-content {
-            display: block;
-        }
-
-        /* 练习项目容器 */
-        .exercise-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .exercise-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.8rem;
-        }
-
-        .exercise-item h4 {
-            color: var(--warn);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .exercise-desc {
-            color: var(--text-gray);
-            margin-bottom: 1rem;
-            line-height: 1.7;
-        }
-
-        .btn-group {
-            margin: 1rem 0;
-        }
-
-        .btn {
-            padding: 0.5rem 1.2rem;
-            border-radius: 8px;
-            border: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-right: 0.8rem;
-        }
-
-        .btn-run {
-            background-color: var(--primary);
-            color: #000;
-            font-weight: 600;
-        }
-
-        .btn-run:hover {
-            background-color: #06b6d4;
-        }
-
-        .btn-clear {
-            background-color: transparent;
-            border: 1px solid var(--text-gray);
-            color: var(--text-gray);
-        }
-
-        .btn-clear:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .output-box {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            min-height: 70px;
-            color: var(--success);
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
-
-        /* CodeMirror 样式覆盖 */
-        .CodeMirror {
-            border-radius: 8px;
-            border: 1px solid var(--border) !important;
-            height: 220px;
-        }
-
-        /* 加载提示 */
-        .loading {
-            color: var(--primary);
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.1rem;
-        }
-
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .course-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>郑凯茵 - 个人学习主页</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="nav-title">
+                <h1>郑凯茵 个人学习平台</h1>
+                <p>广东科学技术职业学院 | 商学院 · 商务数据分析与应用专业</p>
+            </div>
+            <div class="nav-link">
+                <a href="index.html">首页</a>
+                <a href="data-analysis.html">数据分析技术</a>
+                <a href="exercises.html">习题专区</a>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- 个人头部 -->
-        <div class="hero">
-            <h1>郑凯茵</h1>
-            <p>广东科学技术职业学院 · 商学院</p>
-            <p>商务数据分析与应用专业 | 个人学习主页</p>
-        </div>
+        <h2>专业课程列表</h2>
+        <p style="color:#666;margin-top:8px;">点击「开始学习」进入对应课程页面</p>
 
-        <!-- 专业课程板块 -->
-        <h2 class="section-title">专业课程项目</h2>
-        <div class="course-grid">
-            <div class="course-card" onclick="toggleCourse(this)">
-                <h3>Python 基础</h3>
-                <p class="course-desc">语法入门、变量、分支、循环、函数、基础数据结构</p>
-                <div class="course-content">
-                    后续补充：课程笔记、案例代码、课堂作业、知识点总结
-                </div>
+        <div class="course-wrap">
+            <!-- 1. Python基础 -->
+            <div class="course-card">
+                <h3>Python基础</h3>
+                <p>讲解Python语法、变量、循环、条件判断、函数、基础数据结构等内容，是数据分析入门必备编程语言，掌握代码编写基础逻辑。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
             </div>
-            <div class="course-card" onclick="toggleCourse(this)">
+
+            <!-- 2. 数据分析技术（重点课程） -->
+            <div class="course-card">
                 <h3>数据分析技术</h3>
-                <p class="course-desc">描述统计、数据可视化、基础分析方法与实战</p>
-                <div class="course-content">
-                    后续补充：分析案例、实训报告、图表制作教程
-                </div>
+                <p>核心专业课程，学习数据清洗、描述统计、特征分析、数据建模等实战技能，内置在线代码编辑器，支持代码编写与实时运行。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
             </div>
-            <div class="course-card" onclick="toggleCourse(this)">
+
+            <!-- 3. 数据采集与处理 -->
+            <div class="course-card">
                 <h3>数据采集与处理</h3>
-                <p class="course-desc">文件读写、数据清洗、异常处理、简易数据采集</p>
-                <div class="course-content">
-                    后续补充：数据处理脚本、采集实战项目、数据集
-                </div>
+                <p>学习网络爬虫、文件读取、脏数据清洗、缺失值/异常值处理、数据格式转换，完成原始数据到可用数据的加工流程。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
             </div>
-            <div class="course-card" onclick="toggleCourse(this)">
+
+            <!-- 4. 供应链数据分析 -->
+            <div class="course-card">
                 <h3>供应链数据分析</h3>
-                <p class="course-desc">供应链指标、库存、物流数据建模与分析</p>
-                <div class="course-content">
-                    后续补充：行业案例、分析模型、综合实训项目
-                </div>
+                <p>结合供应链业务场景，分析库存、物流、订单、产销数据，用数据优化供应链流程、降低成本、提升运转效率。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
             </div>
-            <div class="course-card" onclick="toggleCourse(this)">
+
+            <!-- 5. 数据库原理与应用 -->
+            <div class="course-card">
                 <h3>数据库原理与应用</h3>
-                <p class="course-desc">数据库基础、SQL查询、数据表设计、数据管理</p>
-                <div class="course-content">
-                    后续补充：SQL习题、建库脚本、综合查询案例
-                </div>
+                <p>讲解数据库基础、数据表设计、SQL增删改查、多表查询、索引与视图，学习数据存储与高效检索技术。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
+            </div>
+
+            <!-- 6. 数据可视化 -->
+            <div class="course-card">
+                <h3>数据可视化</h3>
+                <p>学习图表设计逻辑、Matplotlib/Seaborn绘图、仪表盘制作，将分析结果转化为直观图表，实现数据可视化表达。</p>
+                <a href="data-analysis.html" class="btn">开始学习</a>
             </div>
         </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析技术 - 在线代码学习</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入Pyodide：前端运行Python核心库 -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="nav-title">
+                <h1>郑凯茵 个人学习平台</h1>
+                <p>广东科学技术职业学院 | 商学院 · 商务数据分析与应用专业</p>
+            </div>
+            <div class="nav-link">
+                <a href="index.html">首页</a>
+                <a href="data-analysis.html">数据分析技术</a>
+                <a href="exercises.html">习题专区</a>
+            </div>
+        </div>
+    </header>
 
-        <!-- Python 10个练习项目 -->
-        <h2 class="section-title">Python 10个实战练习项目</h2>
-        <div id="loading" class="loading">正在加载Python运行环境，请稍候...</div>
-        <div class="exercise-wrap" id="exerciseContainer" style="display: none;">
-            <!-- 练习1 -->
-            <div class="exercise-item">
-                <h4>练习项目 1：基础输出</h4>
-                <p class="exercise-desc">编写代码，在控制台输出：Hello, 商务数据分析！</p>
-                <textarea id="code1"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(1)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(1)">清空</button>
-                </div>
-                <div class="output-box" id="output1">运行结果...</div>
+    <div class="container">
+        <h2>数据分析技术 - 在线代码编辑器</h2>
+        <p style="color:#666;margin:8px 0 20px;">编写Python数据分析代码，点击运行按钮查看执行结果</p>
+
+        <button class="btn" id="run-btn">运行代码</button>
+
+        <div class="code-box">
+            <div class="code-area">
+                <textarea id="code-editor" placeholder="在此输入Python代码..."># 示例：基础数据分析代码
+import math
+
+# 简单计算
+data = [12, 45, 23, 67, 34]
+print("原始数据：", data)
+print("数据总和：", sum(data))
+print("数据平均值：", sum(data)/len(data))</textarea>
             </div>
-            <!-- 练习2 -->
-            <div class="exercise-item">
-                <h4>练习项目 2：变量与运算</h4>
-                <p class="exercise-desc">定义变量 x=25，y=18，计算两数的和、差、积并全部输出</p>
-                <textarea id="code2"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(2)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(2)">清空</button>
-                </div>
-                <div class="output-box" id="output2">运行结果...</div>
-            </div>
-            <!-- 练习3 -->
-            <div class="exercise-item">
-                <h4>练习项目 3：输入交互</h4>
-                <p class="exercise-desc">使用 input() 获取用户姓名，输出格式：欢迎你，XXX！</p>
-                <textarea id="code3"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(3)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(3)">清空</button>
-                </div>
-                <div class="output-box" id="output3">运行结果...</div>
-            </div>
-            <!-- 练习4 -->
-            <div class="exercise-item">
-                <h4>练习项目 4：条件判断</h4>
-                <p class="exercise-desc">给定数字 num=78，判断是否大于60，输出“及格”或“不及格”</p>
-                <textarea id="code4"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(4)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(4)">清空</button>
-                </div>
-                <div class="output-box" id="output4">运行结果...</div>
-            </div>
-            <!-- 练习5 -->
-            <div class="exercise-item">
-                <h4>练习项目 5：for 循环遍历</h4>
-                <p class="exercise-desc">使用for循环，依次打印 1 到 15 的所有整数</p>
-                <textarea id="code5"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(5)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(5)">清空</button>
-                </div>
-                <div class="output-box" id="output5">运行结果...</div>
-            </div>
-            <!-- 练习6 -->
-            <div class="exercise-item">
-                <h4>练习项目 6：列表操作</h4>
-                <p class="exercise-desc">定义列表 data = [12,34,56,78,90]，遍历列表并打印每一个元素</p>
-                <textarea id="code6"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(6)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(6)">清空</button>
-                </div>
-                <div class="output-box" id="output6">运行结果...</div>
-            </div>
-            <!-- 练习7 -->
-            <div class="exercise-item">
-                <h4>练习项目 7：自定义函数</h4>
-                <p class="exercise-desc">编写函数 calc(a,b)，返回两数平均值，调用函数测试 a=60, b=80</p>
-                <textarea id="code7"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(7)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(7)">清空</button>
-                </div>
-                <div class="output-box" id="output7">运行结果...</div>
-            </div>
-            <!-- 练习8 -->
-            <div class="exercise-item">
-                <h4>练习项目 8：累加求和</h4>
-                <p class="exercise-desc">计算 1 ~ 50 所有整数的总和，并输出结果</p>
-                <textarea id="code8"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(8)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(8)">清空</button>
-                </div>
-                <div class="output-box" id="output8">运行结果...</div>
-            </div>
-            <!-- 练习9 -->
-            <div class="exercise-item">
-                <h4>练习项目 9：奇偶判断</h4>
-                <p class="exercise-desc">定义数字 n=47，判断该数是奇数还是偶数并输出结果</p>
-                <textarea id="code9"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(9)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(9)">清空</button>
-                </div>
-                <div class="output-box" id="output9">运行结果...</div>
-            </div>
-            <!-- 练习10 -->
-            <div class="exercise-item">
-                <h4>练习项目 10：字典遍历</h4>
-                <p class="exercise-desc">定义字典 info = {"姓名":"郑凯茵","方向":"数据分析"}，遍历输出所有键和值</p>
-                <textarea id="code10"></textarea>
-                <div class="btn-group">
-                    <button class="btn btn-run" onclick="runCode(10)">运行代码</button>
-                    <button class="btn btn-clear" onclick="clearCode(10)">清空</button>
-                </div>
-                <div class="output-box" id="output10">运行结果...</div>
+            <div class="result-area">
+                <h4>运行结果</h4>
+                <div id="run-result">等待运行代码...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // 全局变量
+        // 初始化Pyodide
         let pyodide = null;
-        const editors = [];
-        const totalExe = 10;
-
-        // 初始化 Python 运行环境
-        async function initPyodide() {
+        async function initPy() {
             pyodide = await loadPyodide();
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("exerciseContainer").style.display = "flex";
-            // 初始化10个代码编辑器
-            for(let i = 1; i <= totalExe; i++){
-                const textarea = document.getElementById(`code${i}`);
-                const cm = CodeMirror.fromTextArea(textarea, {
-                    mode: "python",
-                    theme: "dracula",
-                    lineNumbers: true,
-                    indentUnit: 4,
-                    tabSize: 4,
-                    lineWrapping: true
-                });
-                cm.setValue("# 在此编写Python代码\n");
-                editors[i] = cm;
-            }
+            document.getElementById("run-result").innerText = "环境加载完成，请编写代码并运行";
         }
-        initPyodide();
+        initPy();
 
-        // 课程卡片 展开/收起
-        function toggleCourse(el){
-            el.classList.toggle("active");
-        }
-
-        // 运行指定题号代码
-        async function runCode(num){
+        // 运行代码逻辑
+        document.getElementById("run-btn").addEventListener("click", async () => {
             if(!pyodide){
-                document.getElementById(`output${num}`).innerText = "Python环境加载中，请稍后再试！";
+                document.getElementById("run-result").innerText = "Python环境加载中，请稍候...";
                 return;
             }
-            const code = editors[num].getValue();
-            const outputDom = document.getElementById(`output${num}`);
-            try{
+            const code = document.getElementById("code-editor").value;
+            const resDom = document.getElementById("run-result");
+            try {
                 // 捕获print输出
                 pyodide.runPython(`
-                    import sys
-                    from io import StringIO
-                    sys.stdout = io = StringIO()
-                `);
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+`);
                 // 执行代码
                 pyodide.runPython(code);
                 // 获取输出
-                const res = pyodide.runPython("io.getvalue()");
-                outputDom.innerText = res || "代码执行完成，无输出内容";
-            }catch(err){
-                outputDom.innerText = `代码错误：${err.message}`;
+                const output = pyodide.runPython("sys.stdout.getvalue()");
+                resDom.innerText = output || "代码执行完成，无输出内容";
+            } catch (err) {
+                resDom.innerText = "代码报错：\n" + err.message;
             }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析技术 - 在线代码学习</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入Pyodide：前端运行Python核心库 -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="nav-title">
+                <h1>郑凯茵 个人学习平台</h1>
+                <p>广东科学技术职业学院 | 商学院 · 商务数据分析与应用专业</p>
+            </div>
+            <div class="nav-link">
+                <a href="index.html">首页</a>
+                <a href="data-analysis.html">数据分析技术</a>
+                <a href="exercises.html">习题专区</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>数据分析技术 - 在线代码编辑器</h2>
+        <p style="color:#666;margin:8px 0 20px;">编写Python数据分析代码，点击运行按钮查看执行结果</p>
+
+        <button class="btn" id="run-btn">运行代码</button>
+
+        <div class="code-box">
+            <div class="code-area">
+                <textarea id="code-editor" placeholder="在此输入Python代码..."># 示例：基础数据分析代码
+import math
+
+# 简单计算
+data = [12, 45, 23, 67, 34]
+print("原始数据：", data)
+print("数据总和：", sum(data))
+print("数据平均值：", sum(data)/len(data))</textarea>
+            </div>
+            <div class="result-area">
+                <h4>运行结果</h4>
+                <div id="run-result">等待运行代码...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Pyodide
+        let pyodide = null;
+        async function initPy() {
+            pyodide = await loadPyodide();
+            document.getElementById("run-result").innerText = "环境加载完成，请编写代码并运行";
+        }
+        initPy();
+
+        // 运行代码逻辑
+        document.getElementById("run-btn").addEventListener("click", async () => {
+            if(!pyodide){
+                document.getElementById("run-result").innerText = "Python环境加载中，请稍候...";
+                return;
+            }
+            const code = document.getElementById("code-editor").value;
+            const resDom = document.getElementById("run-result");
+            try {
+                // 捕获print输出
+                pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+`);
+                // 执行代码
+                pyodide.runPython(code);
+                // 获取输出
+                const output = pyodide.runPython("sys.stdout.getvalue()");
+                resDom.innerText = output || "代码执行完成，无输出内容";
+            } catch (err) {
+                resDom.innerText = "代码报错：\n" + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析技术 - 习题专区</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="nav-title">
+                <h1>郑凯茵 个人学习平台</h1>
+                <p>广东科学技术职业学院 | 商学院 · 商务数据分析与应用专业</p>
+            </div>
+            <div class="nav-link">
+                <a href="index.html">首页</a>
+                <a href="data-analysis.html">数据分析技术</a>
+                <a href="exercises.html">习题专区</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>数据分析技术 - 专项练习题</h2>
+        <p style="color:#666;margin:8px 0 20px;">左侧选择题型分类，右侧查看对应10道习题</p>
+
+        <div class="exercise-wrap">
+            <!-- 左侧：10类题型导航 -->
+            <div class="exercise-left">
+                <h3>题型分类</h3>
+                <div class="ex-item active" data-id="q1">1. 基础语法题</div>
+                <div class="ex-item" data-id="q2">2. 变量与数据类型</div>
+                <div class="ex-item" data-id="q3">3. 分支与循环</div>
+                <div class="ex-item" data-id="q4">4. 列表与字典操作</div>
+                <div class="ex-item" data-id="q5">5. 函数基础</div>
+                <div class="ex-item" data-id="q6">6. 数据统计计算</div>
+                <div class="ex-item" data-id="q7">7. 数据清洗基础</div>
+                <div class="ex-item" data-id="q8">8. NumPy数组运算</div>
+                <div class="ex-item" data-id="q9">9. Pandas基础操作</div>
+                <div class="ex-item" data-id="q10">10. 综合数据分析题</div>
+            </div>
+
+            <!-- 右侧：习题展示区 -->
+            <div class="exercise-right" id="question-box">
+                <!-- 题目由JS动态渲染 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 10类题库数据（每类10道题）
+        const questionData = {
+            q1: [
+                "1. 简述Python语言的特点。","2. 写出Python代码的注释两种写法。","3. Python中语句结束是否需要分号？","4. 解释Python缩进规则。","5. 写出print()函数的基础用法。",
+                "6. 如何在Python中实现多行输出？","7. 简述交互式环境与脚本文件的区别。","8. 写出Python运行脚本文件的命令。","9. 解释标识符命名规范。","10. 简述关键字的作用。"
+            ],
+            q2: [
+                "1. Python有哪些基础数据类型？","2. 区分int、float、str三种类型。","3. 如何使用type()查看数据类型？","4. 字符串如何拼接？","5. 数字类型之间如何相互转换？",
+                "6. 布尔类型的值有哪两个？","7. 空值None代表什么含义？","8. 写出变量赋值的语法。","9. 变量名可以使用数字开头吗？","10. 简述字符串切片用法。"
+            ],
+            q3: [
+                "1. 写出if条件判断基础语法。","2. 简述if-elif-else执行逻辑。","3. 写出for循环基础格式。","4. 写出while循环基础格式。","5. break语句的作用是什么？",
+                "6. continue语句的作用是什么？","7. 如何实现无限循环？","8. 循环嵌套使用场景。","9. 条件运算符and/or/not用法。","10. 结合判断与循环写一个简单案例思路。"
+            ],
+            q4: [
+                "1. 列表list的定义方式。","2. 列表增删改查常用方法。","3. 列表切片取值。","4. 字典dict的定义格式。","5. 字典根据键取值。",
+                "6. 字典新增、删除键值对。","7. 区分列表、元组、集合。","8. 遍历列表的两种方式。","9. 遍历字典的键与值。","10. 列表嵌套如何取值。"
+            ],
+            q5: [
+                "1. Python函数定义关键字是什么？","2. 函数参数分为哪几类？","3. return语句作用。","4. 无返回值函数特点。","5. 位置参数与关键字参数区别。",
+                "6. 默认参数如何设置？","7. 函数嵌套调用。","8. 局部变量与全局变量区别。","9. 匿名函数lambda用法。","10. 简述函数模块化思想。"
+            ],
+            q6: [
+                "1. 计算一组数据的总和。","2. 计算一组数据的平均值。","3. 找出列表最大值与最小值。","4. 统计列表中指定元素出现次数。","5. 计算数据中位数。",
+                "6. 计算简单方差。","7. 数据排序实现。","8. 去重一组数据。","9. 筛选大于指定值的数据。","10. 分组统计数量。"
+            ],
+            q7: [
+                "1. 什么是脏数据？","2. 如何处理缺失值？","3. 如何识别异常值？","4. 字符串格式统一处理。","5. 重复数据删除方法。",
+                "6. 数据类型统一转换。","7. 空格、特殊符号清理。","8. 字段拆分与合并。","9. 批量替换数据内容。","10. 数据筛选过滤思路。"
+            ],
+            q8: [
+                "1. 如何导入numpy库？","2. 创建一维、二维数组。","3. 数组形状查看shape。","4. 数组切片取值。","5. 数组四则运算。",
+                "6. 数组转置操作。","7. 数组拼接方法。","8. 数组统计函数sum/max/min。","9. 生成等差数组。","10. 布尔索引筛选数组。"
+            ],
+            q9: [
+                "1. 导入pandas库并简写为pd。","2. 创建Series序列。","3. 创建DataFrame数据表。","4. 读取txt/csv文件。","5. 查看数据表基本信息info()。",
+                "6. 查看前几行数据head()。","7. 按列、按行取值。","8. 数据排序sort_values。","9. 缺失值填充fillna。","10. 简单分组groupby。"
+            ],
+            q10: [
+                "1. 读取本地数据并查看基本信息。","2. 完成数据缺失值清洗。","3. 对数值列做描述性统计。","4. 按类别分组计算均值。","5. 筛选符合条件的数据集。",
+                "6. 多列数据组合计算。","7. 数据格式标准化。","8. 综合运用循环与判断分析数据。","9. 结合numpy+pandas完成计算。","10. 简述完整数据分析流程。"
+            ]
+        };
+
+        const itemList = document.querySelectorAll(".ex-item");
+        const questionBox = document.getElementById("question-box");
+
+        // 渲染题目函数
+        function renderQues(id) {
+            const ques = questionData[id];
+            let html = "";
+            ques.forEach(item => {
+                html += `<div class="question-item">${item}</div>`;
+            });
+            questionBox.innerHTML = html;
         }
 
-        // 清空指定题号编辑器
-        function clearCode(num){
-            editors[num].setValue("# 在此编写Python代码\n");
-            document.getElementById(`output${num}`).innerText = "运行结果...";
-        }
+        // 默认渲染第一类题目
+        renderQues("q1");
+
+        // 切换题型
+        itemList.forEach(item => {
+            item.addEventListener("click", function(){
+                // 清除所有选中状态
+                itemList.forEach(i => i.classList.remove("active"));
+                // 当前选中
+                this.classList.add("active");
+                // 渲染对应题目
+                const qid = this.dataset.id;
+                renderQues(qid);
+            })
+        })
     </script>
 </body>
 </html>
